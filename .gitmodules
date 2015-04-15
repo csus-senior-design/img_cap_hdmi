@@ -1,3 +1,9 @@
 [submodule "i2c"]
 	path = hdl/i2c
 	url = git@github.com:csus-senior-design/i2c.git
+[submodule "videogen"]
+	path = hdl/videogen
+	url = git@github.com:csus-senior-design/videogen.git
+[submodule "adv7513"]
+	path = hdl/adv7513
+	url = git@github.com:csus-senior-design/adv7513.git
