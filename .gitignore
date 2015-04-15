@@ -3,5 +3,5 @@ quartus_project/incremental_db/
 quartus_project/*.rpt
 quartus_project/*.smsg
 quartus_project/*.summary
-
+quartus_project/*.qws
 
