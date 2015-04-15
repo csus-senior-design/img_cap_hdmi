@@ -1,0 +1,248 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2014 Altera Corporation. All rights reserved.
+# Your use of Altera Corporation's design tools, logic functions
+# and other software and tools, and its AMPP partner logic
+# functions, and any output files from any of the foregoing
+# (including device programming or simulation files), and any
+# associated documentation or information are expressly subject
+# to the terms and conditions of the Altera Program License
+# Subscription Agreement, the Altera Quartus II License Agreement,
+# the Altera MegaCore Function License Agreement, or other
+# applicable license agreement, including, without limitation,
+# that your use is for the sole purpose of programming logic
+# devices manufactured by Altera and sold by Altera or its
+# authorized distributors.  Please refer to the applicable
+# agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 14.1.0 Build 186 12/03/2014 SJ Web Edition
+# Date created = 12:24:58  April 15, 2015
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		cam_test_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+#============================================================
+# Build by Terasic System Builder
+#============================================================
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CGXFC5C6F27C7
+set_global_assignment -name TOP_LEVEL_ENTITY "cam_test"
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.0
+set_global_assignment -name LAST_QUARTUS_VERSION 14.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:58:04 MARCH 20,2015"
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 672
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8_H6
+set_global_assignment -name SDC_FILE cam_test.SDC
+
+#============================================================
+# CLOCK
+#============================================================
+set_location_assignment PIN_U12 -to CLOCK_125_p
+set_instance_assignment -name IO_STANDARD LVDS -to CLOCK_125_p
+set_location_assignment PIN_R20 -to CLOCK_50_B5B
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50_B5B
+set_location_assignment PIN_N20 -to CLOCK_50_B6A
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50_B6A
+set_location_assignment PIN_H12 -to CLOCK_50_B7A
+set_instance_assignment -name IO_STANDARD "2.5 V" -to CLOCK_50_B7A
+set_location_assignment PIN_M10 -to CLOCK_50_B8A
+set_instance_assignment -name IO_STANDARD "2.5 V" -to CLOCK_50_B8A
+
+#============================================================
+# HDMI-TX
+#============================================================
+set_location_assignment PIN_U26 -to HDMI_TX_HS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_HS
+set_location_assignment PIN_U25 -to HDMI_TX_VS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_VS
+set_location_assignment PIN_Y25 -to HDMI_TX_CLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_CLK
+set_location_assignment PIN_Y26 -to HDMI_TX_DE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_DE
+set_location_assignment PIN_T12 -to HDMI_TX_INT
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HDMI_TX_INT
+set_location_assignment PIN_V23 -to HDMI_TX_D[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[0]
+set_location_assignment PIN_AA26 -to HDMI_TX_D[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[1]
+set_location_assignment PIN_W25 -to HDMI_TX_D[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[2]
+set_location_assignment PIN_W26 -to HDMI_TX_D[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[3]
+set_location_assignment PIN_V24 -to HDMI_TX_D[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[4]
+set_location_assignment PIN_V25 -to HDMI_TX_D[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[5]
+set_location_assignment PIN_U24 -to HDMI_TX_D[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[6]
+set_location_assignment PIN_T23 -to HDMI_TX_D[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[7]
+set_location_assignment PIN_T24 -to HDMI_TX_D[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[8]
+set_location_assignment PIN_T26 -to HDMI_TX_D[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[9]
+set_location_assignment PIN_R23 -to HDMI_TX_D[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[10]
+set_location_assignment PIN_R25 -to HDMI_TX_D[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[11]
+set_location_assignment PIN_P22 -to HDMI_TX_D[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[12]
+set_location_assignment PIN_P23 -to HDMI_TX_D[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[13]
+set_location_assignment PIN_N25 -to HDMI_TX_D[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[14]
+set_location_assignment PIN_P26 -to HDMI_TX_D[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[15]
+set_location_assignment PIN_P21 -to HDMI_TX_D[16]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[16]
+set_location_assignment PIN_R24 -to HDMI_TX_D[17]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[17]
+set_location_assignment PIN_R26 -to HDMI_TX_D[18]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[18]
+set_location_assignment PIN_AB26 -to HDMI_TX_D[19]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[19]
+set_location_assignment PIN_AA24 -to HDMI_TX_D[20]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[20]
+set_location_assignment PIN_AB25 -to HDMI_TX_D[21]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[21]
+set_location_assignment PIN_AC25 -to HDMI_TX_D[22]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[22]
+set_location_assignment PIN_AD25 -to HDMI_TX_D[23]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_D[23]
+
+#============================================================
+# I2C for Audio/HDMI-TX/Si5338/HSMC
+#============================================================
+set_location_assignment PIN_B7 -to I2C_SCL
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_SCL
+set_location_assignment PIN_G11 -to I2C_SDA
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_SDA
+
+
+
+#============================================================
+# GPIO, GPIO connect to GPIO Default
+#============================================================
+set_location_assignment PIN_T21 -to camGPIO[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[0]
+set_location_assignment PIN_D26 -to camGPIO[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[1]
+set_location_assignment PIN_K25 -to camGPIO[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[2]
+set_location_assignment PIN_E26 -to camGPIO[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[3]
+set_location_assignment PIN_K26 -to camGPIO[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[4]
+set_location_assignment PIN_M26 -to camGPIO[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[5]
+set_location_assignment PIN_M21 -to camGPIO[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[6]
+set_location_assignment PIN_P20 -to camGPIO[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[7]
+set_location_assignment PIN_T22 -to camGPIO[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[8]
+set_location_assignment PIN_T19 -to camGPIO[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[9]
+set_location_assignment PIN_U19 -to camGPIO[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[10]
+set_location_assignment PIN_U22 -to camGPIO[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[11]
+set_location_assignment PIN_P8 -to camGPIO[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[12]
+set_location_assignment PIN_R8 -to camGPIO[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[13]
+set_location_assignment PIN_R9 -to camGPIO[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[14]
+set_location_assignment PIN_R10 -to camGPIO[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[15]
+set_location_assignment PIN_F26 -to camGPIO[16]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[16]
+set_location_assignment PIN_Y9 -to camGPIO[17]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[17]
+set_location_assignment PIN_G26 -to camGPIO[18]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[18]
+set_location_assignment PIN_Y8 -to camGPIO[19]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[19]
+set_location_assignment PIN_AA7 -to camGPIO[20]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[20]
+set_location_assignment PIN_AA6 -to camGPIO[21]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[21]
+set_location_assignment PIN_AD7 -to camGPIO[22]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[22]
+set_location_assignment PIN_AD6 -to camGPIO[23]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[23]
+set_location_assignment PIN_U20 -to camGPIO[24]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[24]
+set_location_assignment PIN_V22 -to camGPIO[25]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[25]
+set_location_assignment PIN_V20 -to camGPIO[26]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[26]
+set_location_assignment PIN_W21 -to camGPIO[27]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[27]
+set_location_assignment PIN_W20 -to camGPIO[28]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[28]
+set_location_assignment PIN_Y24 -to camGPIO[29]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[29]
+set_location_assignment PIN_Y23 -to camGPIO[30]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[30]
+set_location_assignment PIN_AA23 -to camGPIO[31]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[31]
+set_location_assignment PIN_AA22 -to camGPIO[32]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[32]
+set_location_assignment PIN_AC24 -to camGPIO[33]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[33]
+set_location_assignment PIN_AC23 -to camGPIO[34]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[34]
+set_location_assignment PIN_AC22 -to camGPIO[35]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[35]
+
+#============================================================
+# End of pin assignments by Terasic System Builder
+#============================================================
+
+set_location_assignment PIN_AB24 -to reset
+set_instance_assignment -name IO_STANDARD "1.2 V" -to reset
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name STRATIXV_CONFIGURATION_SCHEME "ACTIVE SERIAL X4"
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name STRATIXII_CONFIGURATION_DEVICE EPCQ256
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN ON
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name ACTIVE_SERIAL_CLOCK FREQ_100MHZ
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+
+set_global_assignment -name VERILOG_FILE ../hdl/cam_test/cam_test.v
+set_global_assignment -name VERILOG_FILE ../hdl/cam_test/led_7seg.v
+set_global_assignment -name VERILOG_FILE ../hdl/adv7513/adv7513_init.v
+set_global_assignment -name VERILOG_FILE ../hdl/adv7513/adv7513_reg_read.v
+set_global_assignment -name VERILOG_FILE ../hdl/i2c/i2c_slave.v
+set_global_assignment -name VERILOG_FILE ../hdl/i2c/i2c_master.v
+set_global_assignment -name VERILOG_FILE ../hdl/videogen/sync_vg.v
+set_global_assignment -name VERILOG_FILE ../hdl/videogen/pattern_vg.v
