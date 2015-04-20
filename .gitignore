@@ -1,8 +1,13 @@
 *.bak
+*.out
+*.vcd
+
 /quartus_project/db/
 /quartus_project/incremental_db/
 /quartus_project/simulation/
 /quartus_project/c5_pin_model_dump.txt
+
+/quartus_project/*.ddb
 /quartus_project/*.done
 /quartus_project/*.jdi
 /quartus_project/*.pof
