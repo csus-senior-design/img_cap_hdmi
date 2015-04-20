@@ -21,9 +21,14 @@ module cam_test(
     inout  I2C_SDA,
 
     input  [7:0]  I2C_REG,
-    output [15:0] SSEG_OUT
+    output [15:0] SSEG_OUT,
 
 //    inout [35:0] camGPIO
+
+
+    // User interface
+    input i2c_reg_read
+
 );
     localparam I2C_CLKDIV = 206;
 
@@ -37,7 +42,13 @@ module cam_test(
 
     wire clk_in;
 
+    reg adv7513_init_start;
     wire adv7513_init_done;
+    
+    reg adv7513_reg_read_start;
+    wire adv7513_reg_read_done;
+    
+    reg sseg_en;
 
     wire [11:0] x_out;
     wire [12:0] y_out;
@@ -46,7 +57,7 @@ module cam_test(
     wire [7:0] b_out;
 
     wire [7:0] I2C_REG_DATA;
-
+    
     assign clk_in      = ~CLOCK_125_p;
     assign HDMI_TX_CLK = ~CLOCK_125_p;
 
@@ -192,7 +203,7 @@ module cam_test(
         .clk_div(I2C_CLKDIV),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
-        .start(1'b1),
+        .start(adv7513_init_start),
         .done(adv7513_init_done)
     );
 
@@ -209,18 +220,87 @@ module cam_test(
     );
 
     led_7seg sseg_h(
-        .en(1'b1),
+        .en(sseg_en),
         .dp(1'b0),
         .hex(I2C_REG_DATA[7:4]),
         .sseg(SSEG_OUT[15:8])
     );
 
     led_7seg sseg_l(
-        .en(1'b1),
+        .en(sseg_en),
         .dp(1'b0),
         .hex(I2C_REG_DATA[3:0]),
         .sseg(SSEG_OUT[7:0])
     );
 
+    
+    localparam s_idle             = 0, 
+               s_startup          = 1,
+               s_adv7513_init     = 2,
+               s_adv7513_reg_read = 3;
+
+    reg [3:0] state;
+    
+    
+    wire clk_1us;
+    reg [31 :0] delay_tick;
+    wire delay_done;
+    
+    // Clock dividier to get 1us clock
+    clk_1us clk_1us_inst (clk_in, clk_1us);
+
+    assign delay_done = (
+        state == s_adv7513_init && delay_tick == 32'd200000 // 200ms
+    ) ? 1'b1 : 1'b0;
+    
+    always @ (posedge clk_1us, negedge reset) begin
+        if (~reset) begin
+            delay_tick <= 32'd0;
+        end else begin
+            delay_tick <= delay_done == 1'b1 ? 32'd0 : delay_tick + 1'b1;
+        end
+    end
+    
+    always @ (posedge clk_in, negedge reset) begin
+        if (~reset) begin
+            state <= s_startup;
+
+            sseg_en <= 1'b0;
+
+            adv7513_init_start     <= 1'b0;
+            adv7513_reg_read_start <= 1'b0;
+            
+        end
+        else begin
+            sseg_en <= 1'b1;
+            
+            case (state)
+                s_idle: begin
+                    if (i2c_reg_read) begin
+                        state <= s_adv7513_reg_read;
+                    end
+                    else begin
+                        state <= s_idle;
+                    end
+                end
+                
+                s_startup: begin
+                    state <= delay_done ? s_adv7513_init : s_startup;
+                end
+                
+                s_adv7513_init: begin
+                    adv7513_init_start <= 1'b1;
+                    
+                    state <= adv7513_init_done ? s_idle : s_adv7513_init;
+                end
+                
+                s_adv7513_reg_read: begin
+                    adv7513_reg_read_start <= 1'b1;
+
+                    state <= adv7513_reg_read_done ? s_idle : s_adv7513_reg_read;
+                end
+            endcase
+        end
+    end
 endmodule
 
