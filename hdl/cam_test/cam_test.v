@@ -21,7 +21,7 @@ module cam_test(
     inout  I2C_SDA,
 
     input  [7:0]  I2C_REG,
-    output [15:0] SSEG_OUT,
+    output [23:0] SSEG_OUT,
 
 //    inout [35:0] camGPIO
 
@@ -30,7 +30,7 @@ module cam_test(
     input i2c_reg_read
 
 );
-    localparam I2C_CLKDIV = 206;
+    localparam I2C_CLKDIV = 100;
 
     wire de;
     wire vs;
@@ -44,10 +44,10 @@ module cam_test(
 
     reg adv7513_init_start;
     wire adv7513_init_done;
-    
+
     reg adv7513_reg_read_start;
     wire adv7513_reg_read_done;
-    
+
     reg sseg_en;
 
     wire [11:0] x_out;
@@ -57,7 +57,7 @@ module cam_test(
     wire [7:0] b_out;
 
     wire [7:0] I2C_REG_DATA;
-    
+
     assign clk_in      = ~CLOCK_125_p;
     assign HDMI_TX_CLK = ~CLOCK_125_p;
 
@@ -192,15 +192,18 @@ module cam_test(
         .g_out(g_out),
         .b_out(b_out),
         .total_active_pix(H_TOTAL - (H_FP + H_BP + H_SYNC)), // (1920) // h_total - (h_fp+h_bp+h_sync)
-        .total_active_lines(INTERLACED ? (V_TOTAL_0 - (V_FP_0 + V_BP_0 + V_SYNC_0)) + (V_TOTAL_1 - (V_FP_1 + V_BP_1 + V_SYNC_1)) : (V_TOTAL_0 - (V_FP_0 + V_BP_0 + V_SYNC_0))), // originally: 13'd480
+        .total_active_lines(INTERLACED ?
+            (V_TOTAL_0 - (V_FP_0 + V_BP_0 + V_SYNC_0)) + (V_TOTAL_1 - (V_FP_1 + V_BP_1 + V_SYNC_1)) :
+            (V_TOTAL_0 - (V_FP_0 + V_BP_0 + V_SYNC_0)) - 1), // originally: 13'd480
         .pattern(PATTERN_TYPE),
         .ramp_step(PATTERN_RAMP_STEP)
     );
 
-    adv7513_init adv7513_init(
+    adv7513_init #(
+        .CLKDIV(I2C_CLKDIV)
+    ) adv7513_init (
         .clk(clk_in),
         .reset(reset),
-        .clk_div(I2C_CLKDIV),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
         .start(adv7513_init_start),
@@ -233,26 +236,36 @@ module cam_test(
         .sseg(SSEG_OUT[7:0])
     );
 
-    
-    localparam s_idle             = 0, 
-               s_startup          = 1,
-               s_adv7513_init     = 2,
-               s_adv7513_reg_read = 3;
+    led_7seg sseg_state(
+        .en(sseg_en),
+        .dp(1'b0),
+        .hex(state),
+        .sseg(SSEG_OUT[23:16])
+    );
+
+    localparam s_idle                   = 0,
+               s_startup                = 1,
+               s_adv7513_init_start     = 2,
+               s_adv7513_init_wait      = 3,
+               s_adv7513_reg_read_start = 4,
+               s_adv7513_reg_read_wait  = 5;
 
     reg [3:0] state;
-    
-    
+
+
     wire clk_1us;
     reg [31 :0] delay_tick;
     wire delay_done;
-    
+
     // Clock dividier to get 1us clock
-    clk_1us clk_1us_inst (clk_in, clk_1us);
+    clk_1us clk_1us_inst (.reset(reset),
+                          .clk_in(clk_in),
+                          .clk_out(clk_1us));
 
     assign delay_done = (
-        state == s_adv7513_init && delay_tick == 32'd200000 // 200ms
+        state == s_startup && delay_tick == 32'd200000 // 200ms
     ) ? 1'b1 : 1'b0;
-    
+
     always @ (posedge clk_1us, negedge reset) begin
         if (~reset) begin
             delay_tick <= 32'd0;
@@ -260,7 +273,7 @@ module cam_test(
             delay_tick <= delay_done == 1'b1 ? 32'd0 : delay_tick + 1'b1;
         end
     end
-    
+
     always @ (posedge clk_in, negedge reset) begin
         if (~reset) begin
             state <= s_startup;
@@ -269,35 +282,43 @@ module cam_test(
 
             adv7513_init_start     <= 1'b0;
             adv7513_reg_read_start <= 1'b0;
-            
+
         end
         else begin
             sseg_en <= 1'b1;
-            
+
             case (state)
                 s_idle: begin
                     if (i2c_reg_read) begin
-                        state <= s_adv7513_reg_read;
+                        state <= s_adv7513_reg_read_start;
                     end
                     else begin
                         state <= s_idle;
                     end
                 end
-                
-                s_startup: begin
-                    state <= delay_done ? s_adv7513_init : s_startup;
-                end
-                
-                s_adv7513_init: begin
-                    adv7513_init_start <= 1'b1;
-                    
-                    state <= adv7513_init_done ? s_idle : s_adv7513_init;
-                end
-                
-                s_adv7513_reg_read: begin
-                    adv7513_reg_read_start <= 1'b1;
 
-                    state <= adv7513_reg_read_done ? s_idle : s_adv7513_reg_read;
+                s_startup: begin
+                    state <= delay_done ? s_adv7513_init_start : s_startup;
+                end
+
+                s_adv7513_init_start: begin
+                    adv7513_init_start <= 1'b1;
+                    state <= s_adv7513_init_wait;
+                end
+
+                s_adv7513_init_wait: begin
+                    adv7513_init_start <= 1'b0;
+                    state <= adv7513_init_done ? s_idle : s_adv7513_init_wait;
+                end
+
+                s_adv7513_reg_read_start: begin
+                    adv7513_reg_read_start <= 1'b1;
+                    state <= s_adv7513_reg_read_wait;
+                end
+
+                s_adv7513_reg_read_wait: begin
+                    adv7513_reg_read_start <= 1'b0;
+                    state <= adv7513_reg_read_done ? s_idle : s_adv7513_reg_read_wait;
                 end
             endcase
         end
