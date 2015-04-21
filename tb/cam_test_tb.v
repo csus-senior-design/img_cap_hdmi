@@ -52,7 +52,7 @@ module cam_test_tb ();
     wire I2C_SCL, I2C_SDA;
 
     reg [7:0] I2C_REG;
-    wire [23:0] SSEG_OUT;
+    wire [20:0] SSEG_OUT;
     reg i2c_reg_read;
 
 
