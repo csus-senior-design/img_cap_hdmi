@@ -7,8 +7,8 @@ module led_7seg
     );
 
     always @ (*) begin
-        if (en) begin
-            case(hex)
+        if (en == 1'b1) begin
+            case (hex)
                  4'h0: sseg[6:0] = ~7'b0111111;
                  4'h1: sseg[6:0] = ~7'b0000110;
                  4'h2: sseg[6:0] = ~7'b1011011;
@@ -25,13 +25,12 @@ module led_7seg
                  4'hd: sseg[6:0] = ~7'b1011110;
                  4'he: sseg[6:0] = ~7'b1111001;
                  4'hf: sseg[6:0] = ~7'b1110001;
-                 default: sseg[6:0] = ~7'b0000000;
             endcase
 
             sseg[7] = dp;
         end
         else begin
-            sseg = 8'h00;
+            sseg = 8'hff;
         end
     end
 endmodule

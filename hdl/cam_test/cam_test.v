@@ -1,36 +1,43 @@
-module cam_test(
-    // Clock signals
-    input   CLOCK_125_p,
-    input   CLOCK_50_B5B,
-    input   CLOCK_50_B6A,
-    input   CLOCK_50_B7A,
-    input   CLOCK_50_B8A,
+module cam_test #(
+        // for testbenching
+        parameter ADV7513_INIT_DELAY = 32'd20,
+        // ADV7513_INIT_DELAY = 32'd250000 // 250ms
+        parameter I2C_CLKDIV = 100
+    )(
+        // Clock signals
+        input   CLOCK_125_p,
+        input   CLOCK_50_B5B,
+        input   CLOCK_50_B6A,
+        input   CLOCK_50_B7A,
+        input   CLOCK_50_B8A,
 
-    input   reset,
+        input   reset,
 
-    // HDMI-TX via ADV7513
-	output  HDMI_TX_CLK,
-	output  HDMI_TX_DE,
-	output  HDMI_TX_HS,
-	output  HDMI_TX_VS,
-	output  [23:0] HDMI_TX_D,
-	input   HDMI_TX_INT,
+        // HDMI-TX via ADV7513
+    	output  HDMI_TX_CLK,
+    	output  HDMI_TX_DE,
+    	output  HDMI_TX_HS,
+    	output  HDMI_TX_VS,
+    	output  [23:0] HDMI_TX_D,
+    	input   HDMI_TX_INT,
 
-    // i2c for HDMI-TX
-    inout  I2C_SCL,
-    inout  I2C_SDA,
+        // i2c for HDMI-TX
+        inout  I2C_SCL,
+        inout  I2C_SDA,
 
-    input  [7:0]  I2C_REG,
-    output [23:0] SSEG_OUT,
+        input  [7:0]  I2C_REG,
+        output [20:0] SSEG_OUT,
 
-//    inout [35:0] camGPIO
+        // GPIO for Camera Interfaces
+        inout  [22:0] camGPIO,
 
+        // LED Status Indicators
+        output reg [9:0] LEDR,
+        output reg [7:0] LEDG,
 
-    // User interface
-    input i2c_reg_read
-
-);
-    localparam I2C_CLKDIV = 100;
+        // User interfaces
+        input i2c_reg_read
+    );
 
     wire de;
     wire vs;
@@ -58,19 +65,14 @@ module cam_test(
 
     wire [7:0] I2C_REG_DATA;
 
-    assign clk_in      = ~CLOCK_125_p;
-    assign HDMI_TX_CLK = ~CLOCK_125_p;
+    assign clk_in      = CLOCK_125_p;
+    assign HDMI_TX_CLK = CLOCK_125_p;
 
     assign HDMI_TX_D   = {r_out, g_out, b_out};
     assign HDMI_TX_DE  = de_out;
     assign HDMI_TX_HS  = hs_out;
     assign HDMI_TX_VS = vs_out;
 
-
-
-    always @(posedge clk_in) begin
-        // Do something
-    end
 
     //`define MODE_1080p
     //`define MODE_1080i
@@ -222,25 +224,25 @@ module cam_test(
         .done(adv7513_reg_read_done)
     );
 
-    led_7seg sseg_h(
-        .en(sseg_en),
-        .dp(1'b0),
-        .hex(I2C_REG_DATA[7:4]),
-        .sseg(SSEG_OUT[15:8])
-    );
-
     led_7seg sseg_l(
         .en(sseg_en),
         .dp(1'b0),
         .hex(I2C_REG_DATA[3:0]),
-        .sseg(SSEG_OUT[7:0])
+        .sseg(SSEG_OUT[6:0])
+    );
+
+    led_7seg sseg_h(
+        .en(sseg_en),
+        .dp(1'b0),
+        .hex(I2C_REG_DATA[7:4]),
+        .sseg(SSEG_OUT[13:7])
     );
 
     led_7seg sseg_state(
         .en(sseg_en),
         .dp(1'b0),
-        .hex(state),
-        .sseg(SSEG_OUT[23:16])
+        .hex(state[3:0]),
+        .sseg(SSEG_OUT[20:14])
     );
 
     localparam s_idle                   = 0,
@@ -252,9 +254,8 @@ module cam_test(
 
     reg [3:0] state;
 
-
     wire clk_1us;
-    reg [31 :0] delay_tick;
+    reg [31:0] delay_tick;
     wire delay_done;
 
     // Clock dividier to get 1us clock
@@ -262,29 +263,36 @@ module cam_test(
                           .clk_in(clk_in),
                           .clk_out(clk_1us));
 
+
+
     assign delay_done = (
-        state == s_startup && delay_tick == 32'd200000 // 200ms
+        state == s_startup && delay_tick == ADV7513_INIT_DELAY
     ) ? 1'b1 : 1'b0;
 
-    always @ (posedge clk_1us, negedge reset) begin
+    always @ (posedge clk_1us or negedge reset) begin
         if (~reset) begin
             delay_tick <= 32'd0;
-        end else begin
+        end
+        else begin
             delay_tick <= delay_done == 1'b1 ? 32'd0 : delay_tick + 1'b1;
         end
     end
 
-    always @ (posedge clk_in, negedge reset) begin
+    always @ (posedge clk_in or negedge reset) begin
+        LEDR[8] <= reset;
+
         if (~reset) begin
+            LEDR[9] <= 1'b1;
             state <= s_startup;
 
             sseg_en <= 1'b0;
 
             adv7513_init_start     <= 1'b0;
             adv7513_reg_read_start <= 1'b0;
-
         end
         else begin
+            LEDR[9] <= 1'b0;
+
             sseg_en <= 1'b1;
 
             case (state)
