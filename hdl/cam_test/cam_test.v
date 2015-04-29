@@ -276,12 +276,12 @@ module cam_test #(
         .sseg(SSEG_OUT[20:14])
     );
 
-    localparam s_idle                   = 4'd0,
-               s_startup                = 4'd1,
-               s_adv7513_init_start     = 4'd2,
-               s_adv7513_init_wait      = 4'd3,
-               s_adv7513_reg_read_start = 4'd4,
-               s_adv7513_reg_read_wait  = 4'd5;
+    parameter s_idle                    = 0,
+               s_startup                = 1,
+               s_adv7513_init_start     = 2,
+               s_adv7513_init_wait      = 3,
+               s_adv7513_reg_read_start = 4,
+               s_adv7513_reg_read_wait  = 5;
 
     reg [3:0] state;
 
