@@ -1,8 +1,13 @@
 module cam_test #(
         // for testbenching
-        parameter ADV7513_INIT_DELAY = 32'd20,
-        // ADV7513_INIT_DELAY = 32'd250000 // 250ms
-        parameter I2C_CLKDIV = 100
+        `ifdef IVERILOG
+            parameter ADV7513_INIT_DELAY = 32'd250, // 250ms
+        `else
+            parameter ADV7513_INIT_DELAY = 32'd250000,
+        `endif
+
+        parameter I2C_CLKDIV = 12'd50,
+        parameter I2C_TXN_DELAY = 32'd100
     )(
         // Clock signals
         input   CLOCK_125_p,
@@ -29,7 +34,7 @@ module cam_test #(
         output [20:0] SSEG_OUT,
 
         // GPIO for Camera Interfaces
-        inout  [22:0] camGPIO,
+        inout  [21:0] camGPIO,
 
         // LED Status Indicators
         output reg [9:0] LEDR,
@@ -47,8 +52,6 @@ module cam_test #(
     wire hs_out;
     wire de_out;
 
-    wire clk_in;
-
     reg adv7513_init_start;
     wire adv7513_init_done;
 
@@ -65,80 +68,100 @@ module cam_test #(
 
     wire [7:0] I2C_REG_DATA;
 
-    assign clk_in      = CLOCK_125_p;
-    assign HDMI_TX_CLK = CLOCK_125_p;
+    wire clk_in;
+    wire clk_1us;
 
-    assign HDMI_TX_D   = {r_out, g_out, b_out};
-    assign HDMI_TX_DE  = de_out;
-    assign HDMI_TX_HS  = hs_out;
+    wire pll_locked;
+
+    assign clk_in = CLOCK_50_B5B;
+
+    `ifdef IVERILOG
+        assign HDMI_TX_CLK = CLOCK_50_B5B;
+        assign pll_locked = 1'b1;
+
+        clk_1us clk_1us_inst (.reset(reset),
+                              .clk_in(CLOCK_50_B5B),
+                              .clk_out(clk_1us));
+    `else
+        pll pll_inst (
+            .refclk(CLOCK_50_B5B),
+            .rst(1'b0),
+            .outclk_0(HDMI_TX_CLK),
+            .outclk_1(clk_1us),
+            .locked(pll_locked)
+    	);
+    `endif
+
+    assign HDMI_TX_D  = {r_out, g_out, b_out};
+    assign HDMI_TX_DE = de_out;
+    assign HDMI_TX_HS = hs_out;
     assign HDMI_TX_VS = vs_out;
-
 
     //`define MODE_1080p
     //`define MODE_1080i
     `define MODE_720p
 
     `ifdef MODE_1080p /* FORMAT 16 */
-        parameter INTERLACED = 1'b0;
-        parameter V_TOTAL_0 = 12'd1125;
-        parameter V_FP_0 = 12'd4;
-        parameter V_BP_0 = 12'd36;
-        parameter V_SYNC_0 = 12'd5;
-        parameter V_TOTAL_1 = 12'd0;
-        parameter V_FP_1 = 12'd0;
-        parameter V_BP_1 = 12'd0;
-        parameter V_SYNC_1 = 12'd0;
-        parameter H_TOTAL = 12'd2200;
-        parameter H_FP = 12'd88;
-        parameter H_BP = 12'd148;
-        parameter H_SYNC = 12'd44;
-        parameter HV_OFFSET_0 = 12'd0;
-        parameter HV_OFFSET_1 = 12'd0;
-        parameter PATTERN_RAMP_STEP = 20'h0222;
-        parameter PATTERN_TYPE = 8'd4; // RAMP
-        //parameter PATTERN_TYPE = 8'd1; // OUTLINE
+        localparam INTERLACED = 1'b0;
+        localparam V_TOTAL_0 = 12'd1125;
+        localparam V_FP_0 = 12'd4;
+        localparam V_BP_0 = 12'd36;
+        localparam V_SYNC_0 = 12'd5;
+        localparam V_TOTAL_1 = 12'd0;
+        localparam V_FP_1 = 12'd0;
+        localparam V_BP_1 = 12'd0;
+        localparam V_SYNC_1 = 12'd0;
+        localparam H_TOTAL = 12'd2200;
+        localparam H_FP = 12'd88;
+        localparam H_BP = 12'd148;
+        localparam H_SYNC = 12'd44;
+        localparam HV_OFFSET_0 = 12'd0;
+        localparam HV_OFFSET_1 = 12'd0;
+        localparam PATTERN_RAMP_STEP = 20'h0222;
+        localparam PATTERN_TYPE = 8'd4; // RAMP
+        //localparam PATTERN_TYPE = 8'd1; // OUTLINE
     `endif
 
     `ifdef MODE_1080i /* FORMAT 5 */
-        parameter INTERLACED = 1'b1;
-        parameter V_TOTAL_0 = 12'd562;
-        parameter V_FP_0 = 12'd2;
-        parameter V_BP_0 = 12'd15;
-        parameter V_SYNC_0 = 12'd5;
-        parameter V_TOTAL_1 = 12'd563;
-        parameter V_FP_1 = 12'd2;
-        parameter V_BP_1 = 12'd16;
-        parameter V_SYNC_1 = 12'd5;
-        parameter H_TOTAL = 12'd2200;
-        parameter H_FP = 12'd88;
-        parameter H_BP = 12'd148;
-        parameter H_SYNC = 12'd44;
-        parameter HV_OFFSET_0 = 12'd0;
-        parameter HV_OFFSET_1 = 12'd1100;
-        parameter PATTERN_RAMP_STEP = 20'h0222; // 20'hFFFFF / 1920 act_pixels per line = 20'h0222
-        parameter PATTERN_TYPE = 8'd4; // RAMP
-        //parameter PATTERN_TYPE = 8'd1; // OUTLINE
+        localparam INTERLACED = 1'b1;
+        localparam V_TOTAL_0 = 12'd562;
+        localparam V_FP_0 = 12'd2;
+        localparam V_BP_0 = 12'd15;
+        localparam V_SYNC_0 = 12'd5;
+        localparam V_TOTAL_1 = 12'd563;
+        localparam V_FP_1 = 12'd2;
+        localparam V_BP_1 = 12'd16;
+        localparam V_SYNC_1 = 12'd5;
+        localparam H_TOTAL = 12'd2200;
+        localparam H_FP = 12'd88;
+        localparam H_BP = 12'd148;
+        localparam H_SYNC = 12'd44;
+        localparam HV_OFFSET_0 = 12'd0;
+        localparam HV_OFFSET_1 = 12'd1100;
+        localparam PATTERN_RAMP_STEP = 20'h0222; // 20'hFFFFF / 1920 act_pixels per line = 20'h0222
+        localparam PATTERN_TYPE = 8'd4; // RAMP
+        //localparam PATTERN_TYPE = 8'd1; // OUTLINE
     `endif
 
     `ifdef MODE_720p /* FORMAT 4 */
-        parameter INTERLACED = 1'b0;
-        parameter V_TOTAL_0 = 12'd750;
-        parameter V_FP_0 = 12'd5;
-        parameter V_BP_0 = 12'd20;
-        parameter V_SYNC_0 = 12'd5;
-        parameter V_TOTAL_1 = 12'd0;
-        parameter V_FP_1 = 12'd0;
-        parameter V_BP_1 = 12'd0;
-        parameter V_SYNC_1 = 12'd0;
-        parameter H_TOTAL = 12'd1650;
-        parameter H_FP = 12'd110;
-        parameter H_BP = 12'd220;
-        parameter H_SYNC = 12'd40;
-        parameter HV_OFFSET_0 = 12'd0;
-        parameter HV_OFFSET_1 = 12'd0;
-        parameter PATTERN_RAMP_STEP = 20'h0333; // 20'hFFFFF / 1280 act_pixels per line = 20'h0333
-        //parameter PATTERN_TYPE = 8'd1; // BORDER.
-        parameter PATTERN_TYPE = 8'd4; // RAMP
+        localparam INTERLACED = 1'b0;
+        localparam V_TOTAL_0 = 12'd750;
+        localparam V_FP_0 = 12'd5;
+        localparam V_BP_0 = 12'd20;
+        localparam V_SYNC_0 = 12'd5;
+        localparam V_TOTAL_1 = 12'd0;
+        localparam V_FP_1 = 12'd0;
+        localparam V_BP_1 = 12'd0;
+        localparam V_SYNC_1 = 12'd0;
+        localparam H_TOTAL = 12'd1650;
+        localparam H_FP = 12'd110;
+        localparam H_BP = 12'd220;
+        localparam H_SYNC = 12'd40;
+        localparam HV_OFFSET_0 = 12'd0;
+        localparam HV_OFFSET_1 = 12'd0;
+        localparam PATTERN_RAMP_STEP = 20'h0333; // 20'hFFFFF / 1280 act_pixels per line = 20'h0333
+        //localparam PATTERN_TYPE = 8'd1; // BORDER.
+        localparam PATTERN_TYPE = 8'd4; // RAMP
     `endif
 
     /* ********************* */
@@ -254,50 +277,59 @@ module cam_test #(
 
     reg [3:0] state;
 
-    wire clk_1us;
     reg [31:0] delay_tick;
-    wire delay_done;
+    reg delay_done;
 
-    // Clock dividier to get 1us clock
-    clk_1us clk_1us_inst (.reset(reset),
-                          .clk_in(clk_in),
-                          .clk_out(clk_1us));
+    assign camGPIO[0] = I2C_SCL;
+    assign camGPIO[1] = I2C_SDA;
 
 
-
-    assign delay_done = (
-        state == s_startup && delay_tick == ADV7513_INIT_DELAY
-    ) ? 1'b1 : 1'b0;
 
     always @ (posedge clk_1us or negedge reset) begin
         if (~reset) begin
+            delay_done <= 1'b0;
             delay_tick <= 32'd0;
         end
         else begin
-            delay_tick <= delay_done == 1'b1 ? 32'd0 : delay_tick + 1'b1;
+            delay_done <= (
+                (state == s_startup                && delay_tick == ADV7513_INIT_DELAY) ||
+                (state == s_adv7513_init_start     && delay_tick == 1) ||
+                (state == s_adv7513_init_wait      && delay_tick == I2C_TXN_DELAY) ||
+                (state == s_adv7513_reg_read_start && delay_tick == 1) ||
+                (state == s_adv7513_reg_read_wait  && delay_tick == I2C_TXN_DELAY)
+            ) ? 1'b1 : 1'b0;
+
+            delay_tick <= (delay_done == 1'b1) ? 32'd0 : delay_tick + 1'b1;
         end
     end
 
     always @ (posedge clk_in or negedge reset) begin
-        LEDR[8] <= reset;
-
         if (~reset) begin
-            LEDR[9] <= 1'b1;
             state <= s_startup;
 
             sseg_en <= 1'b0;
 
             adv7513_init_start     <= 1'b0;
             adv7513_reg_read_start <= 1'b0;
+
+            LEDR <= 10'b10_0000_0000;
+            LEDG <= 8'h00;
         end
         else begin
-            LEDR[9] <= 1'b0;
-
             sseg_en <= 1'b1;
+
+            LEDR[9] <= 1'b0;
+            LEDR[8] <= pll_locked;
+
+            LEDG[0] <= adv7513_init_start;
+            LEDG[1] <= adv7513_init_done;
+
+            LEDG[2] <= adv7513_reg_read_start;
+            LEDG[3] <= adv7513_reg_read_done;
 
             case (state)
                 s_idle: begin
-                    if (i2c_reg_read) begin
+                    if (i2c_reg_read == 1'b0) begin
                         state <= s_adv7513_reg_read_start;
                     end
                     else begin
@@ -316,7 +348,7 @@ module cam_test #(
 
                 s_adv7513_init_wait: begin
                     adv7513_init_start <= 1'b0;
-                    state <= adv7513_init_done ? s_idle : s_adv7513_init_wait;
+                    state <= (delay_done && adv7513_init_done) ? s_idle : s_adv7513_init_wait;
                 end
 
                 s_adv7513_reg_read_start: begin
@@ -326,7 +358,7 @@ module cam_test #(
 
                 s_adv7513_reg_read_wait: begin
                     adv7513_reg_read_start <= 1'b0;
-                    state <= adv7513_reg_read_done ? s_idle : s_adv7513_reg_read_wait;
+                    state <= (delay_done && adv7513_reg_read_done) ? s_idle : s_adv7513_reg_read_wait;
                 end
             endcase
         end

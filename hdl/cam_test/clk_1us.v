@@ -1,7 +1,10 @@
-module clk_1us(clk_in, reset, clk_out);
-    input clk_in;
-    input reset;
-    output reg clk_out;
+module clk_1us # (
+        parameter CLKDIV = 50
+    )(
+        input clk_in,
+        input reset,
+        output reg clk_out
+    );
 
     reg [7:0] counter;
 
@@ -13,7 +16,7 @@ module clk_1us(clk_in, reset, clk_out);
         else begin
             counter <= counter + 1'b1;
 
-            if (counter == 8'b01111101) begin
+            if (counter == CLKDIV) begin
                 counter <= 8'h00;
                 clk_out <= ~clk_out;
             end
