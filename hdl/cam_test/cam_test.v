@@ -83,6 +83,22 @@ module cam_test #(
 
     assign clk_in = CLOCK_50_B5B;
 
+    parameter s_idle                    = 0,
+               s_startup                = 1,
+               s_adv7513_init_start     = 2,
+               s_adv7513_init_wait      = 3,
+               s_adv7513_reg_read_start = 4,
+               s_adv7513_reg_read_wait  = 5;
+
+    reg [3:0] state;
+
+    reg [31:0] delay_tick;
+    reg delay_done;
+
+    assign camGPIO[0] = I2C_SCL;
+    assign camGPIO[1] = I2C_SDA;
+
+
     `ifdef SIM
         assign HDMI_TX_CLK = CLOCK_50_B5B;
         assign pll_locked = 1'b1;
@@ -275,22 +291,6 @@ module cam_test #(
         .hex(state[3:0]),
         .sseg(SSEG_OUT[20:14])
     );
-
-    parameter s_idle                    = 0,
-               s_startup                = 1,
-               s_adv7513_init_start     = 2,
-               s_adv7513_init_wait      = 3,
-               s_adv7513_reg_read_start = 4,
-               s_adv7513_reg_read_wait  = 5;
-
-    reg [3:0] state;
-
-    reg [31:0] delay_tick;
-    reg delay_done;
-
-    assign camGPIO[0] = I2C_SCL;
-    assign camGPIO[1] = I2C_SDA;
-
 
 
     always @ (posedge clk_1us or negedge reset) begin
