@@ -3,10 +3,10 @@ module cam_test #(
         `ifdef IVERILOG
             parameter ADV7513_INIT_DELAY = 32'd250, // 250ms
         `else
-            parameter ADV7513_INIT_DELAY = 32'd250000,
+            parameter ADV7513_INIT_DELAY = 32'd500000,
         `endif
 
-        parameter I2C_CLKDIV = 12'd50,
+        parameter I2C_CLKDIV = 12'd600,
         parameter I2C_TXN_DELAY = 32'd100
     )(
         // Clock signals
@@ -294,7 +294,7 @@ module cam_test #(
             delay_done <= (
                 (state == s_startup                && delay_tick == ADV7513_INIT_DELAY) ||
                 (state == s_adv7513_init_start     && delay_tick == 1) ||
-                (state == s_adv7513_init_wait      && delay_tick == I2C_TXN_DELAY) ||
+                (state == s_adv7513_init_wait      && delay_tick == ADV7513_INIT_DELAY) ||
                 (state == s_adv7513_reg_read_start && delay_tick == 1) ||
                 (state == s_adv7513_reg_read_wait  && delay_tick == I2C_TXN_DELAY)
             ) ? 1'b1 : 1'b0;
