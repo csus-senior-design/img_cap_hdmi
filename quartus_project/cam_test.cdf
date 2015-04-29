@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(5CGXFC5C6F27) Path("Z:/gmcrist/Projects/Senior Design/cam_test/quartus_project/") File("cam_test.sof") MfrSpec(OpMask(1));
+		Device PartName(5CGXFC5C6F27) Path("C:/Users/gmcrist/Desktop/cam_test/quartus_project/") File("cam_test.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
