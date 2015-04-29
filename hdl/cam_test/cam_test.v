@@ -1,6 +1,14 @@
+`ifdef IVERILOG
+    `define SIM
+`endif
+
+`ifdef VCS
+    `define SIM
+`endif
+
 module cam_test #(
         // for testbenching
-        `ifdef IVERILOG
+        `ifdef SIM
             parameter ADV7513_INIT_DELAY = 32'd250, // 250ms
         `else
             parameter ADV7513_INIT_DELAY = 32'd500000,
@@ -75,7 +83,7 @@ module cam_test #(
 
     assign clk_in = CLOCK_50_B5B;
 
-    `ifdef IVERILOG
+    `ifdef SIM
         assign HDMI_TX_CLK = CLOCK_50_B5B;
         assign pll_locked = 1'b1;
 
