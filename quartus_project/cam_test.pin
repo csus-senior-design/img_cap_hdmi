@@ -296,7 +296,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : C14       :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : C15       :        :                   :         : 7A        :                
 VCCIO7A                      : C16       : power  :                   : 2.5V    : 7A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C17       :        :                   :         : 7A        :                
-camGPIO[22]                  : C18       : bidir  : 2.5 V             :         : 7A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : C18       :        :                   :         : 7A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C19       :        :                   :         : 7A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C20       :        :                   :         : 7A        :                
 GND                          : C21       : gnd    :                   :         :           :                
@@ -596,7 +596,7 @@ GND                          : R2        : gnd    :                   :         
 VCCH_GXBL                    : R3        : power  :                   : 2.5V    :           :                
 GND                          : R4        : gnd    :                   :         :           :                
 VCCE_GXBL                    : R5        : power  :                   : 1.1V    :           :                
-TMS                          : R6        : input  :                   :         : 3A        :                
+altera_reserved_tms          : R6        : input  : 2.5 V             :         : 3A        : N              
 GND                          : R7        : gnd    :                   :         :           :                
 camGPIO[13]                  : R8        : bidir  : 2.5 V             :         : 3A        : Y              
 camGPIO[14]                  : R9        : bidir  : 2.5 V             :         : 3A        : Y              
@@ -622,7 +622,7 @@ GND                          : T2        :        :                   :         
 GND                          : T3        : gnd    :                   :         :           :                
 VCCH_GXBL                    : T4        : power  :                   : 2.5V    :           :                
 GND                          : T5        : gnd    :                   :         :           :                
-TDI                          : T6        : input  :                   :         : 3A        :                
+altera_reserved_tdi          : T6        : input  : 2.5 V             :         : 3A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : T7        :        :                   :         : 3A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T8        :        :                   :         : 3A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T9        :        :                   :         : 3B        :                
@@ -675,7 +675,7 @@ GND                          : V3        : gnd    :                   :         
 GND                          : V4        : gnd    :                   :         :           :                
 GND                          : V5        : gnd    :                   :         :           :                
 GND                          : V6        :        :                   :         : B0L       :                
-TDO                          : V7        : output :                   :         : 3A        :                
+altera_reserved_tdo          : V7        : output : 2.5 V             :         : 3A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : V8        :        :                   :         : 3A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V9        :        :                   :         : 3B        :                
 I2C_REG[6]                   : V10       : input  : 2.5 V             :         : 3B        : Y              
@@ -725,7 +725,7 @@ GND                          : Y1        :        :                   :         
 GND                          : Y2        :        :                   :         : B0L       :                
 GND                          : Y3        : gnd    :                   :         :           :                
 GND                          : Y4        : gnd    :                   :         :           :                
-TCK                          : Y5        : input  :                   :         : 3A        :                
+altera_reserved_tck          : Y5        : input  : 2.5 V             :         : 3A        : N              
 nCSO, DATA4                  : Y6        :        :                   :         : 3A        :                
 VCCIO3A                      : Y7        : power  :                   : 2.5V    : 3A        :                
 camGPIO[19]                  : Y8        : bidir  : 2.5 V             :         : 3A        : Y              
