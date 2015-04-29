@@ -72,12 +72,15 @@ module cam_test_tb ();
         .SCL(I2C_SCL)
     );
 
-    cam_test uut (
+    cam_test #(
+        .ADV7513_INIT_DELAY(32'd250),
+        .I2C_TXN_DELAY(32'd20)
+    ) uut (
         .CLOCK_125_p(clock),
-        .CLOCK_50_B5B(CLOCK_50_B5B),
-        .CLOCK_50_B6A(CLOCK_50_B6A),
-        .CLOCK_50_B7A(CLOCK_50_B7A),
-        .CLOCK_50_B8A(CLOCK_50_B8A),
+        .CLOCK_50_B5B(clock),
+        .CLOCK_50_B6A(clock),
+        .CLOCK_50_B7A(clock),
+        .CLOCK_50_B8A(clock),
 
         .reset(reset),
 
@@ -101,28 +104,32 @@ module cam_test_tb ();
     // Initial conditions; setup
     initial begin
         $timeformat(-9,1, "ns", 12);
-        $monitor("%t, Tick: %d, Init: %b, State: %d", $realtime, uut.delay_tick, uut.adv7513_init_done, uut.state);
+        $monitor("%t, %d, Reset: %b, Delay: %b, State: %d, Init: (%b|%b), Read: (%b: %b|%b),", $realtime, uut.delay_tick, reset, uut.delay_done, uut.state, uut.adv7513_init_start, uut.adv7513_init_done, i2c_reg_read, uut.adv7513_reg_read_start, uut.adv7513_reg_read_done);
 
         // Initial Conditions
         cycle <= 0;
         reset <= 1'b0;
 
+        i2c_reg_read <= 1'b1;
+
         #2 clock <= 0;
 
         #5 reset <= 1'b1;
-        $display("De-asserting reset");
-    end
 
-    always @ (posedge clock) begin
-        if (uut.adv7513_init_done == 1) begin
-            #100 I2C_REG <= 8'h0E;
-            #100 i2c_reg_read <= 1'b1;
-            #100;
-        end
+        #100
+        while (uut.state != 0)
+            @(posedge clock);
 
-        if (uut.state == 0) begin
-            #100 $finish;
-        end
+
+        #100 I2C_REG <= 8'h9A;
+        #100 i2c_reg_read <= 1'b0;
+        #30 i2c_reg_read <= 1'b1;
+
+        while (uut.state == 5)
+            @(posedge clock);
+
+        #100
+        $finish;
     end
 
 
