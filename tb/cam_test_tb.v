@@ -31,6 +31,7 @@ Description:
 */
 module cam_test_tb ();
     parameter CLOCKPERIOD = 20;
+    parameter ADV7513_CHIP_ADDR = 7'd72;
 
     reg CLOCK_125_p,
         CLOCK_50_B5B,
@@ -56,16 +57,14 @@ module cam_test_tb ();
     reg i2c_reg_read;
 
 
-
     // for counting the cycles
     reg [15:0] cycle;
 
     reg clock;
 
-//    pullup(I2C_SDA);
-//    pullup(I2C_SCL);
-
-    adv7513_mock adv7513_mock_inst (
+    adv7513_mock #(
+        .CHIP_ADDR(ADV7513_CHIP_ADDR)
+    ) adv7513_mock_inst (
         .clock(clock),
         .reset(reset),
         .SDA(I2C_SDA),
@@ -73,8 +72,10 @@ module cam_test_tb ();
     );
 
     cam_test #(
-        .ADV7513_INIT_DELAY(32'd250),
-        .I2C_TXN_DELAY(32'd20)
+        .ADV7513_INIT_DELAY(32'd20),
+        .ADV7513_CHIP_ADDR(ADV7513_CHIP_ADDR),
+        .I2C_TXN_DELAY(32'd10),
+        .I2C_CLKDIV(32'd40)
     ) uut (
         .CLOCK_125_p(clock),
         .CLOCK_50_B5B(clock),
@@ -123,12 +124,13 @@ module cam_test_tb ();
 
         #100 I2C_REG <= 8'h9A;
         #100 i2c_reg_read <= 1'b0;
-        #30 i2c_reg_read <= 1'b1;
+        #30  i2c_reg_read <= 1'b1;
 
         while (uut.state == 5)
             @(posedge clock);
 
-        #100
+        #500000
+        $writememh("slave_data.hex", adv7513_mock_inst.slave_data);
         $finish;
     end
 

@@ -30,11 +30,11 @@ module adv7513_mock #(
 
 
     // SDA Input / Output
-    assign slave_sda_in = sda;
+    assign slave_sda_in = SDA;
     assign SDA = (slave_sda_oen == 0) ? slave_sda_out : 1'bz;
 
     // SCL Input / Output
-    assign slave_scl_in = scl;
+    assign slave_scl_in = SCL;
     assign SCL = (slave_scl_oen == 0) ? slave_scl_out : 1'bz;
 
     pullup(SDA);
