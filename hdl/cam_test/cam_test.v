@@ -14,8 +14,10 @@ module cam_test #(
             parameter ADV7513_INIT_DELAY = 32'd500000,
         `endif
 
-        parameter I2C_CLKDIV = 12'd600,
-        parameter I2C_TXN_DELAY = 32'd100
+        parameter ADV7513_CHIP_ADDR = 7'h72,
+
+        parameter I2C_CLKDIV = 12'd400,
+        parameter I2C_TXN_DELAY = 32'd600
     )(
         // Clock signals
         input   CLOCK_125_p,
@@ -81,7 +83,7 @@ module cam_test #(
 
     wire pll_locked;
 
-    assign clk_in = CLOCK_50_B5B;
+    assign clk_in = ~CLOCK_50_B5B;
 
     parameter s_idle                    = 0,
                s_startup                = 1,
@@ -103,12 +105,16 @@ module cam_test #(
         assign HDMI_TX_CLK = CLOCK_50_B5B;
         assign pll_locked = 1'b1;
 
-        clk_1us clk_1us_inst (.reset(reset),
-                              .clk_in(CLOCK_50_B5B),
-                              .clk_out(clk_1us));
+        clk_1us #(
+            .CLKDIV(50)
+        ) clk_1us_inst (
+            .reset(reset),
+            .clk_in(~CLOCK_50_B5B),
+            .clk_out(clk_1us)
+        );
     `else
         pll pll_inst (
-            .refclk(CLOCK_50_B5B),
+            .refclk(~CLOCK_50_B5B),
             .rst(1'b0),
             .outclk_0(HDMI_TX_CLK),
             .outclk_1(clk_1us),
@@ -249,7 +255,8 @@ module cam_test #(
     );
 
     adv7513_init #(
-        .CLKDIV(I2C_CLKDIV)
+        .CHIP_ADDR(ADV7513_CHIP_ADDR),
+        .I2C_CLKDIV(I2C_CLKDIV)
     ) adv7513_init (
         .clk(clk_in),
         .reset(reset),
@@ -259,10 +266,12 @@ module cam_test #(
         .done(adv7513_init_done)
     );
 
-    adv7513_reg_read adv7513_reg_read(
+    adv7513_reg_read #(
+        .CHIP_ADDR(ADV7513_CHIP_ADDR),
+        .I2C_CLKDIV(I2C_CLKDIV)
+    ) adv7513_reg_read (
         .clk(clk_in),
         .reset(reset),
-        .clk_div(I2C_CLKDIV),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
         .reg_addr(I2C_REG),
@@ -328,6 +337,7 @@ module cam_test #(
 
             LEDR[9] <= 1'b0;
             LEDR[8] <= pll_locked;
+            LEDR[7] <= HDMI_TX_INT;
 
             LEDG[0] <= adv7513_init_start;
             LEDG[1] <= adv7513_init_done;
