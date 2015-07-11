@@ -44,7 +44,7 @@ set_global_assignment -name TOP_LEVEL_ENTITY "cam_test"
 set_global_assignment -name SDC_FILE cam_test.SDC
 
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.0
-set_global_assignment -name LAST_QUARTUS_VERSION 14.1.0
+set_global_assignment -name LAST_QUARTUS_VERSION 14.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:58:04 MARCH 20,2015"
 
 
@@ -163,29 +163,6 @@ set_location_assignment PIN_G26 -to camGPIO[18]
 set_location_assignment PIN_Y8 -to camGPIO[19]
 set_location_assignment PIN_AA7 -to camGPIO[20]
 set_location_assignment PIN_AA6 -to camGPIO[21]
-
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[8]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[9]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[10]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[11]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[12]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[13]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[14]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[15]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[16]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[17]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[18]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[19]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[20]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to camGPIO[21]
 
 
 #============================================================
