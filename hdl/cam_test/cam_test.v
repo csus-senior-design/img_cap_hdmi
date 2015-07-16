@@ -92,6 +92,7 @@ module cam_test #(
                s_adv7513_reg_read_start = 4,
                s_adv7513_reg_read_wait  = 5;
 
+    (* syn_encoding = "safe" *)
     reg [3:0] state;
 
     reg [31:0] delay_tick;
@@ -302,7 +303,7 @@ module cam_test #(
     );
 
 
-    always @ (posedge clk_1us or negedge reset) begin
+    always @ (posedge clk_1us) begin
         if (~reset) begin
             delay_done <= 1'b0;
             delay_tick <= 32'd0;
@@ -320,7 +321,7 @@ module cam_test #(
         end
     end
 
-    always @ (posedge clk_in or negedge reset) begin
+    always @ (posedge clk_in) begin
         if (~reset) begin
             state <= s_startup;
 
