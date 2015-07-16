@@ -8,7 +8,7 @@ module clk_1us # (
 
     reg [7:0] counter;
 
-    always @ (posedge clk_in, negedge reset) begin
+    always @ (posedge clk_in) begin
         if (~reset) begin
             clk_out <= 1'b0;
             counter <= 8'h00;
