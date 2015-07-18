@@ -40,11 +40,11 @@ module cam_test #(
         inout  I2C_SCL,
         inout  I2C_SDA,
 
-        input  [7:0]  I2C_REG,
+        //input  [7:0]  I2C_REG,
         output [20:0] SSEG_OUT,
 
         // GPIO for Camera Interfaces
-        inout  [21:0] camGPIO,
+        //inout  [21:0] camGPIO,
 
         // LED Status Indicators
         output reg [9:0] LEDR,
@@ -98,8 +98,8 @@ module cam_test #(
     reg [31:0] delay_tick;
     reg delay_done;
 
-    assign camGPIO[0] = I2C_SCL;
-    assign camGPIO[1] = I2C_SDA;
+    //assign camGPIO[0] = I2C_SCL;
+    //assign camGPIO[1] = I2C_SDA;
 
 
     `ifdef SIM
@@ -275,7 +275,7 @@ module cam_test #(
         .reset(reset),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
-        .reg_addr(I2C_REG),
+        .reg_addr(8'h42),
         .reg_data(I2C_REG_DATA),
         .start(adv7513_reg_read_start),
         .done(adv7513_reg_read_done)
