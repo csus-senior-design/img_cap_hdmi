@@ -39,6 +39,8 @@ module cam_test #(
         // i2c for HDMI-TX
         inout  I2C_SCL,
         inout  I2C_SDA,
+        
+        //input [7:0] I2C_REG,
 
         //input  [7:0]  I2C_REG,
         output [20:0] SSEG_OUT,
