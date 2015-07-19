@@ -11,12 +11,12 @@ module cam_test #(
         `ifdef SIM
             parameter ADV7513_INIT_DELAY = 32'd250, // 250ms
         `else
-            parameter ADV7513_INIT_DELAY = 32'd500000,
+            parameter ADV7513_INIT_DELAY = 32'd1000000,
         `endif
 
-        parameter ADV7513_CHIP_ADDR = 7'h72,
+        parameter ADV7513_CHIP_ADDR = 7'h39,
 
-        parameter I2C_CLKDIV = 12'd400,
+        parameter I2C_CLKDIV = 12'd125,
         parameter I2C_TXN_DELAY = 32'd600
     )(
         // Clock signals
@@ -87,12 +87,12 @@ module cam_test #(
 
     assign clk_in = ~CLOCK_50_B5B;
 
-    parameter s_idle                    = 0,
-               s_startup                = 1,
-               s_adv7513_init_start     = 2,
-               s_adv7513_init_wait      = 3,
-               s_adv7513_reg_read_start = 4,
-               s_adv7513_reg_read_wait  = 5;
+    localparam  [3:0] s_idle                   = 0,
+                      s_startup                = 1,
+                      s_adv7513_init_start     = 2,
+                      s_adv7513_init_wait      = 3,
+                      s_adv7513_reg_read_start = 4,
+                      s_adv7513_reg_read_wait  = 5;
 
     (* syn_encoding = "safe" *)
     reg [3:0] state;
@@ -277,7 +277,7 @@ module cam_test #(
         .reset(reset),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
-        .reg_addr(8'h42),
+        .reg_addr_in(8'h42),
         .reg_data(I2C_REG_DATA),
         .start(adv7513_reg_read_start),
         .done(adv7513_reg_read_done)
