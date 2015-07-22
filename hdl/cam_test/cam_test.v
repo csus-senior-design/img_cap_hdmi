@@ -20,40 +20,95 @@ module cam_test #(
         parameter I2C_TXN_DELAY = 32'd600
     )(
         // Clock signals
+        (*
+          chip_pin = "U12"
+        *)
         input   CLOCK_125_p,
+        (*
+          chip_pin = "R20"
+        *)
         input   CLOCK_50_B5B,
+        (*
+          chip_pin = "N20"
+        *)
         input   CLOCK_50_B6A,
+        (*
+          chip_pin = "H12"
+        *)
         input   CLOCK_50_B7A,
+        (*
+          chip_pin = "M10"
+        *)
         input   CLOCK_50_B8A,
 
-        input   reset,
+        (*
+          chip_pin = "AB24"
+        *)
+        input   RESET,
 
         // HDMI-TX via ADV7513
-    	output  HDMI_TX_CLK,
-    	output  HDMI_TX_DE,
-    	output  HDMI_TX_HS,
-    	output  HDMI_TX_VS,
-    	output  [23:0] HDMI_TX_D,
-    	input   HDMI_TX_INT,
+        (*
+          chip_pin = "Y25"
+        *)
+        output  HDMI_TX_CLK,
+        (*
+          chip_pin = "Y26"
+        *)
+        output  HDMI_TX_DE,
+        (*
+          chip_pin = "U26"
+        *)
+        output  HDMI_TX_HS,
+        (*
+          chip_pin = "U25"
+        *)
+        output  HDMI_TX_VS,
+        (*
+          chip_pin = "AD25, AC25, AB25, AA24, AB26, R26, R24, P21, P26, N25, P23, P22, R25, R23, T26, T24, T23, U24, V25, V24, W26, W25, AA26, V23"
+        *)
+        output  [23:0] HDMI_TX_D,
+        (*
+          chip_pin = "T12"
+        *)
+        input   HDMI_TX_INT,
 
         // i2c for HDMI-TX
+        (*
+          chip_pin = "B7"
+        *)
         inout  I2C_SCL,
+        (*
+          chip_pin = "G11"
+        *)
         inout  I2C_SDA,
-        
-        //input [7:0] I2C_REG,
 
-        //input  [7:0]  I2C_REG,
+        (*
+          chip_pin = "AC10, V10, AB10, W11, AC8, AD13, AE10, AC9"
+        *)
+        input  [7:0]  I2C_REG,
+        (*
+          chip_pin = "W20, W21, V20, V22, U20, AD6, AD7, AF24, AC19, AE25, AE26, AB19, AD26, AA18, Y18, Y19, Y20, W18, V17, V18, V19"
+        *)
         output [20:0] SSEG_OUT,
 
         // GPIO for Camera Interfaces
         //inout  [21:0] camGPIO,
 
         // LED Status Indicators
+        (*
+          chip_pin = "J10, H7, K8, K10, J7, J8, G7, G6, F6, F7"
+        *)
         output reg [9:0] LEDR,
+        (*
+          chip_pin = "L7, K6, D8, E9, A5, B6, H8, H9"
+        *)
         output reg [7:0] LEDG,
 
         // User interfaces
-        input i2c_reg_read
+        (*
+          chip_pin = "Y16"
+        *)
+        input I2C_REG_READ
     );
 
     wire de;
@@ -111,7 +166,7 @@ module cam_test #(
         clk_1us #(
             .CLKDIV(50)
         ) clk_1us_inst (
-            .reset(reset),
+            .reset(RESET),
             .clk_in(~CLOCK_50_B5B),
             .clk_out(clk_1us)
         );
@@ -200,7 +255,7 @@ module cam_test #(
     /* ********************* */
     sync_vg #(.X_BITS(12), .Y_BITS(12)) sync_vg (
         .clk(clk_in),
-        .reset(reset),
+        .reset(RESET),
         .interlaced(INTERLACED),
         .clk_out(), // inverted output clock - unconnected
         .v_total_0(V_TOTAL_0),
@@ -233,7 +288,7 @@ module cam_test #(
         .Y_BITS(12),
         .FRACTIONAL_BITS(12)) // Number of fractional bits for ramp pattern
     pattern_vg (
-        .reset(reset),
+        .reset(RESET),
         .clk_in(clk_in),
         .x(x_out),
         .y(y_out[11:0]),
@@ -262,7 +317,7 @@ module cam_test #(
         .I2C_CLKDIV(I2C_CLKDIV)
     ) adv7513_init (
         .clk(clk_in),
-        .reset(reset),
+        .reset(RESET),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
         .start(adv7513_init_start),
@@ -274,10 +329,10 @@ module cam_test #(
         .I2C_CLKDIV(I2C_CLKDIV)
     ) adv7513_reg_read (
         .clk(clk_in),
-        .reset(reset),
+        .reset(RESET),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
-        .reg_addr_in(8'h42),
+        .reg_addr_in(I2C_REG),
         .reg_data(I2C_REG_DATA),
         .start(adv7513_reg_read_start),
         .done(adv7513_reg_read_done)
@@ -306,7 +361,7 @@ module cam_test #(
 
 
     always @ (posedge clk_1us) begin
-        if (~reset) begin
+        if (~RESET) begin
             delay_done <= 1'b0;
             delay_tick <= 32'd0;
         end
@@ -324,7 +379,7 @@ module cam_test #(
     end
 
     always @ (posedge clk_in) begin
-        if (~reset) begin
+        if (~RESET) begin
             state <= s_startup;
 
             sseg_en <= 1'b0;
@@ -350,7 +405,7 @@ module cam_test #(
 
             case (state)
                 s_idle: begin
-                    if (i2c_reg_read == 1'b0) begin
+                    if (I2C_REG_READ == 1'b0) begin
                         state <= s_adv7513_reg_read_start;
                     end
                     else begin

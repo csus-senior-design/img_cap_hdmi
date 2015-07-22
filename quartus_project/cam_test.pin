@@ -29,11 +29,11 @@
  -- VCCIO         : Dedicated power pin, which MUST be connected to VCC
  --                 of its bank.
  --                  Bank 3A:       2.5V
- --                  Bank 3B:       1.2V
+ --                  Bank 3B:       2.5V
  --                  Bank 4A:       2.5V
  --                  Bank 5A:       2.5V
- --                  Bank 5B:       3.3V
- --                  Bank 6A:       3.3V
+ --                  Bank 5B:       2.5V
+ --                  Bank 6A:       2.5V
  --                  Bank 7A:       2.5V
  --                  Bank 8A:  2.5V
  -- RREF          : External reference resistor for the quad, MUST be connected to
@@ -108,7 +108,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AA6       :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA7       :        :                   :         : 3A        :                
 VCC_AUX                      : AA8       : power  :                   : 2.5V    :           :                
 VCCPGM                       : AA9       : power  :                   : 2.5V    :           :                
-VCCIO3B                      : AA10      : power  :                   : 1.2V    : 3B        :                
+VCCIO3B                      : AA10      : power  :                   : 2.5V    : 3B        :                
 VCCPD3B4A                    : AA11      : power  :                   : 2.5V    :           :                
 NC                           : AA12      :        :                   :         :           :                
 VCCPD3B4A                    : AA13      : power  :                   : 2.5V    :           :                
@@ -122,9 +122,9 @@ VCCIO4A                      : AA20      : power  :                   : 2.5V    
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA21      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA22      :        :                   :         : 5A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA23      :        :                   :         : 5A        :                
-HDMI_TX_D[20]                : AA24      : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[20]                : AA24      : output : 2.5 V             :         : 5B        : Y              
 GND                          : AA25      : gnd    :                   :         :           :                
-HDMI_TX_D[1]                 : AA26      : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[1]                 : AA26      : output : 2.5 V             :         : 5B        : Y              
 GND                          : AB1       :        :                   :         : B0L       :                
 GND                          : AB2       :        :                   :         : B0L       :                
 GND                          : AB3       : gnd    :                   :         :           :                
@@ -134,7 +134,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AB6       :        :                   :      
 NC                           : AB7       :        :                   :         :           :                
 GND                          : AB8       : gnd    :                   :         :           :                
 VCCPD3A                      : AB9       : power  :                   : 2.5V    : 3A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AB10      :        :                   :         : 3B        :                
+I2C_REG[5]                   : AB10      : input  : 2.5 V             :         : 3B        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AB11      :        :                   :         : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AB12      :        :                   :         : 3B        :                
 VCCIO4A                      : AB13      : power  :                   : 2.5V    : 4A        :                
@@ -148,9 +148,9 @@ VCC_AUX                      : AB20      : power  :                   : 2.5V    
 VCCPD3B4A                    : AB21      : power  :                   : 2.5V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AB22      :        :                   :         : 4A        :                
 VCCIO5A                      : AB23      : power  :                   : 2.5V    : 5A        :                
-reset                        : AB24      : input  : 3.3-V LVTTL       :         : 5A        : Y              
-HDMI_TX_D[21]                : AB25      : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[19]                : AB26      : output : 3.3-V LVTTL       :         : 5B        : Y              
+RESET                        : AB24      : input  : 2.5 V             :         : 5A        : Y              
+HDMI_TX_D[21]                : AB25      : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[19]                : AB26      : output : 2.5 V             :         : 5B        : Y              
 GND                          : AC1       : gnd    :                   :         :           :                
 GND                          : AC2       : gnd    :                   :         :           :                
 GXB_NC                       : AC3       :        :                   :         : B0L       :                
@@ -158,9 +158,9 @@ GXB_NC                       : AC4       :        :                   :         
 GND                          : AC5       : gnd    :                   :         :           :                
 VCCIO3A                      : AC6       : power  :                   : 2.5V    : 3A        :                
 VREFB3AN0                    : AC7       : power  :                   :         : 3A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AC8       :        :                   :         : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AC9       :        :                   :         : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AC10      :        :                   :         : 3B        :                
+I2C_REG[3]                   : AC8       : input  : 2.5 V             :         : 3B        : Y              
+I2C_REG[0]                   : AC9       : input  : 2.5 V             :         : 3B        : Y              
+I2C_REG[7]                   : AC10      : input  : 2.5 V             :         : 3B        : Y              
 GND                          : AC11      : gnd    :                   :         :           :                
 VREFB3BN0                    : AC12      : power  :                   :         : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC13      :        :                   :         : 4A        :                
@@ -175,7 +175,7 @@ GND                          : AC21      : gnd    :                   :         
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC22      :        :                   :         : 5A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC23      :        :                   :         : 5A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC24      :        :                   :         : 5A        :                
-HDMI_TX_D[22]                : AC25      : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[22]                : AC25      : output : 2.5 V             :         : 5B        : Y              
 GND                          : AC26      : gnd    :                   :         :           :                
 GND                          : AD1       :        :                   :         : B0L       :                
 GND                          : AD2       :        :                   :         : B0L       :                
@@ -185,11 +185,11 @@ AS_DATA1, DATA1              : AD5       :        :                   :         
 SSEG_OUT[15]                 : AD6       : output : 2.5 V             :         : 3A        : Y              
 SSEG_OUT[14]                 : AD7       : output : 2.5 V             :         : 3A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD8       :        :                   :         : 3B        :                
-VCCIO3B                      : AD9       : power  :                   : 1.2V    : 3B        :                
+VCCIO3B                      : AD9       : power  :                   : 2.5V    : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD10      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD11      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD12      :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AD13      :        :                   :         : 4A        :                
+I2C_REG[2]                   : AD13      : input  : 2.5 V             :         : 4A        : Y              
 GND                          : AD14      : gnd    :                   :         :           :                
 VREFB4AN0                    : AD15      : power  :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD16      :        :                   :         : 4A        :                
@@ -201,7 +201,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AD21      :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD22      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD23      :        :                   :         : 4A        :                
 GND                          : AD24      : gnd    :                   :         :           :                
-HDMI_TX_D[23]                : AD25      : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[23]                : AD25      : output : 2.5 V             :         : 5B        : Y              
 SSEG_OUT[8]                  : AD26      : output : 2.5 V             :         : 4A        : Y              
 GND                          : AE1       : gnd    :                   :         :           :                
 GND                          : AE2       : gnd    :                   :         :           :                
@@ -212,7 +212,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AE6       :        :                   :      
 GND                          : AE7       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE8       :        :                   :         : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE9       :        :                   :         : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AE10      :        :                   :         : 4A        :                
+I2C_REG[1]                   : AE10      : input  : 2.5 V             :         : 4A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE11      :        :                   :         : 4A        :                
 VCCIO4A                      : AE12      : power  :                   : 2.5V    : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE13      :        :                   :         : 4A        :                
@@ -304,7 +304,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : C22       :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : C23       :        :                   :         : 7A        :                
 DNU                          : C24       :        :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C25       :        :                   :         : 6A        :                
-VCCIO6A                      : C26       : power  :                   : 3.3V    : 6A        :                
+VCCIO6A                      : C26       : power  :                   : 2.5V    : 6A        :                
 NC                           : D1        :        :                   :         :           :                
 NC                           : D2        :        :                   :         :           :                
 GND                          : D3        : gnd    :                   :         :           :                
@@ -352,7 +352,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : E18       :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : E19       :        :                   :         : 7A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E20       :        :                   :         : 7A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E21       :        :                   :         : 6A        :                
-VCCIO6A                      : E22       : power  :                   : 3.3V    : 6A        :                
+VCCIO6A                      : E22       : power  :                   : 2.5V    : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E23       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E24       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E25       :        :                   :         : 6A        :                
@@ -381,7 +381,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : F21       :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : F22       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : F23       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : F24       :        :                   :         : 6A        :                
-VCCIO6A                      : F25       : power  :                   : 3.3V    : 6A        :                
+VCCIO6A                      : F25       : power  :                   : 2.5V    : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : F26       :        :                   :         : 6A        :                
 GND                          : G1        : gnd    :                   :         :           :                
 GND                          : G2        : gnd    :                   :         :           :                
@@ -429,7 +429,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : H17       :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : H18       :        :                   :         : 7A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : H19       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : H20       :        :                   :         : 6A        :                
-VCCIO6A                      : H21       : power  :                   : 3.3V    : 6A        :                
+VCCIO6A                      : H21       : power  :                   : 2.5V    : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : H22       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : H23       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : H24       :        :                   :         : 6A        :                
@@ -456,9 +456,9 @@ GND                          : J18       : gnd    :                   :         
 VCC                          : J19       : power  :                   : 1.1V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : J20       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : J21       :        :                   :         : 6A        :                
-VCCPD6A                      : J22       : power  :                   : 3.3V    : 6A        :                
+VCCPD6A                      : J22       : power  :                   : 2.5V    : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : J23       :        :                   :         : 6A        :                
-VCCIO6A                      : J24       : power  :                   : 3.3V    : 6A        :                
+VCCIO6A                      : J24       : power  :                   : 2.5V    : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : J25       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : J26       :        :                   :         : 6A        :                
 GXB_NC                       : K1        :        :                   :         : B1L       :                
@@ -507,7 +507,7 @@ VCC                          : L17       : power  :                   : 1.1V    
 GND                          : L18       : gnd    :                   :         :           :                
 VCC                          : L19       : power  :                   : 1.1V    :           :                
 GND                          : L20       : gnd    :                   :         :           :                
-VCCPD6A                      : L21       : power  :                   : 3.3V    : 6A        :                
+VCCPD6A                      : L21       : power  :                   : 2.5V    : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : L22       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : L23       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : L24       :        :                   :         : 6A        :                
@@ -535,7 +535,7 @@ GND                          : M19       : gnd    :                   :         
 VCC                          : M20       : power  :                   : 1.1V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : M21       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : M22       :        :                   :         : 6A        :                
-VCCIO6A                      : M23       : power  :                   : 3.3V    : 6A        :                
+VCCIO6A                      : M23       : power  :                   : 2.5V    : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : M24       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : M25       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : M26       :        :                   :         : 6A        :                
@@ -558,13 +558,13 @@ GND                          : N16       : gnd    :                   :         
 VCC                          : N17       : power  :                   : 1.1V    :           :                
 GND                          : N18       : gnd    :                   :         :           :                
 VCC                          : N19       : power  :                   : 1.1V    :           :                
-CLOCK_50_B6A                 : N20       : input  : 3.3-V LVTTL       :         : 6A        : Y              
+CLOCK_50_B6A                 : N20       : input  : 2.5 V             :         : 6A        : Y              
 GND                          : N21       : gnd    :                   :         :           :                
-VCCPD5B                      : N22       : power  :                   : 3.3V    : 5B        :                
+VCCPD5B                      : N22       : power  :                   : 2.5V    : 5B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : N23       :        :                   :         : 6A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : N24       :        :                   :         : 6A        :                
-HDMI_TX_D[14]                : N25       : output : 3.3-V LVTTL       :         : 5B        : Y              
-VCCIO5B                      : N26       : power  :                   : 3.3V    : 5B        :                
+HDMI_TX_D[14]                : N25       : output : 2.5 V             :         : 5B        : Y              
+VCCIO5B                      : N26       : power  :                   : 2.5V    : 5B        :                
 GXB_NC                       : P1        :        :                   :         : B1L       :                
 GXB_NC                       : P2        :        :                   :         : B1L       :                
 GND                          : P3        : gnd    :                   :         :           :                
@@ -585,12 +585,12 @@ GND                          : P17       : gnd    :                   :         
 VCC                          : P18       : power  :                   : 1.1V    :           :                
 GND                          : P19       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : P20       :        :                   :         : 5B        :                
-HDMI_TX_D[16]                : P21       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[12]                : P22       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[13]                : P23       : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[16]                : P21       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[12]                : P22       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[13]                : P23       : output : 2.5 V             :         : 5B        : Y              
 GND                          : P24       : gnd    :                   :         :           :                
 VREFB5BN0                    : P25       : power  :                   :         : 5B        :                
-HDMI_TX_D[15]                : P26       : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[15]                : P26       : output : 2.5 V             :         : 5B        : Y              
 GND                          : R1        : gnd    :                   :         :           :                
 GND                          : R2        : gnd    :                   :         :           :                
 VCCH_GXBL                    : R3        : power  :                   : 2.5V    :           :                
@@ -610,13 +610,13 @@ GND                          : R16       : gnd    :                   :         
 VCC                          : R17       : power  :                   : 1.1V    :           :                
 GND                          : R18       : gnd    :                   :         :           :                
 VCC                          : R19       : power  :                   : 1.1V    :           :                
-CLOCK_50_B5B                 : R20       : input  : 3.3-V LVTTL       :         : 5B        : Y              
-VCCPD5B                      : R21       : power  :                   : 3.3V    : 5B        :                
-VCCIO5B                      : R22       : power  :                   : 3.3V    : 5B        :                
-HDMI_TX_D[10]                : R23       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[17]                : R24       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[11]                : R25       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[18]                : R26       : output : 3.3-V LVTTL       :         : 5B        : Y              
+CLOCK_50_B5B                 : R20       : input  : 2.5 V             :         : 5B        : Y              
+VCCPD5B                      : R21       : power  :                   : 2.5V    : 5B        :                
+VCCIO5B                      : R22       : power  :                   : 2.5V    : 5B        :                
+HDMI_TX_D[10]                : R23       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[17]                : R24       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[11]                : R25       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[18]                : R26       : output : 2.5 V             :         : 5B        : Y              
 GND                          : T1        :        :                   :         : B1L       :                
 GND                          : T2        :        :                   :         : B1L       :                
 GND                          : T3        : gnd    :                   :         :           :                
@@ -628,7 +628,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : T8        :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : T9        :        :                   :         : 3B        :                
 GND                          : T10       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T11       :        :                   :         : 3B        :                
-HDMI_TX_INT                  : T12       : input  : 1.2 V             :         : 3B        : Y              
+HDMI_TX_INT                  : T12       : input  : 2.5 V             :         : 3B        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : T13       :        :                   :         : 3B        :                
 VCC                          : T14       : power  :                   : 1.1V    :           :                
 GND                          : T15       : gnd    :                   :         :           :                
@@ -639,10 +639,10 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : T19       :        :                   :      
 GND                          : T20       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T21       :        :                   :         : 5B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T22       :        :                   :         : 5B        :                
-HDMI_TX_D[7]                 : T23       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[8]                 : T24       : output : 3.3-V LVTTL       :         : 5B        : Y              
-VCCIO5B                      : T25       : power  :                   : 3.3V    : 5B        :                
-HDMI_TX_D[9]                 : T26       : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[7]                 : T23       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[8]                 : T24       : output : 2.5 V             :         : 5B        : Y              
+VCCIO5B                      : T25       : power  :                   : 2.5V    : 5B        :                
+HDMI_TX_D[9]                 : T26       : output : 2.5 V             :         : 5B        : Y              
 GND                          : U1        : gnd    :                   :         :           :                
 GND                          : U2        : gnd    :                   :         :           :                
 VCCL_GXBL                    : U3        : power  :                   : 1.1V    :           :                
@@ -650,11 +650,11 @@ GND                          : U4        : gnd    :                   :         
 VCCE_GXBL                    : U5        : power  :                   : 1.1V    :           :                
 AS_DATA3, DATA3              : U6        :        :                   :         : 3A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U7        :        :                   :         : 3A        :                
-VCCIO3B                      : U8        : power  :                   : 1.2V    : 3B        :                
+VCCIO3B                      : U8        : power  :                   : 2.5V    : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U9        :        :                   :         : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U10       :        :                   :         : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U11       :        :                   :         : 3B        :                
-CLOCK_125_p                  : U12       : input  : LVDS              :         : 4A        : Y              
+CLOCK_125_p                  : U12       : input  : 2.5 V             :         : 4A        : Y              
 GND                          : U13       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U14       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U15       :        :                   :         : 4A        :                
@@ -666,9 +666,9 @@ SSEG_OUT[16]                 : U20       : output : 2.5 V             :         
 VCCPD5A                      : U21       : power  :                   : 2.5V    : 5A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U22       :        :                   :         : 5A        :                
 GND                          : U23       : gnd    :                   :         :           :                
-HDMI_TX_D[6]                 : U24       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_VS                   : U25       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_HS                   : U26       : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[6]                 : U24       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_VS                   : U25       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_HS                   : U26       : output : 2.5 V             :         : 5B        : Y              
 GND                          : V1        :        :                   :         : B1L       :                
 GND                          : V2        :        :                   :         : B1L       :                
 GND                          : V3        : gnd    :                   :         :           :                
@@ -678,9 +678,9 @@ GND                          : V6        :        :                   :         
 altera_reserved_tdo          : V7        : output : 2.5 V             :         : 3A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : V8        :        :                   :         : 3A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V9        :        :                   :         : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : V10       :        :                   :         : 3B        :                
-VCCIO3B                      : V11       : power  :                   : 1.2V    : 3B        :                
-CLOCK_125_p(n)               : V12       : input  : LVDS              :         : 4A        : N              
+I2C_REG[6]                   : V10       : input  : 2.5 V             :         : 3B        : Y              
+VCCIO3B                      : V11       : power  :                   : 2.5V    : 3B        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : V12       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V13       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V14       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V15       :        :                   :         : 4A        :                
@@ -691,9 +691,9 @@ SSEG_OUT[0]                  : V19       : output : 2.5 V             :         
 SSEG_OUT[18]                 : V20       : output : 2.5 V             :         : 5A        : Y              
 VCCIO5A                      : V21       : power  :                   : 2.5V    : 5A        :                
 SSEG_OUT[17]                 : V22       : output : 2.5 V             :         : 5A        : Y              
-HDMI_TX_D[0]                 : V23       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[4]                 : V24       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[5]                 : V25       : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_D[0]                 : V23       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[4]                 : V24       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[5]                 : V25       : output : 2.5 V             :         : 5B        : Y              
 GND                          : V26       : gnd    :                   :         :           :                
 GND                          : W1        : gnd    :                   :         :           :                
 GND                          : W2        : gnd    :                   :         :           :                
@@ -705,7 +705,7 @@ VCCA_FPLL                    : W7        : power  :                   : 2.5V    
 RESERVED_INPUT_WITH_WEAK_PULLUP : W8        :        :                   :         : 3A        :                
 GND                          : W9        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : W10       :        :                   :         : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : W11       :        :                   :         : 3B        :                
+I2C_REG[4]                   : W11       : input  : 2.5 V             :         : 3B        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : W12       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : W13       :        :                   :         : 4A        :                
 VCCIO4A                      : W14       : power  :                   : 2.5V    : 4A        :                
@@ -718,9 +718,9 @@ SSEG_OUT[20]                 : W20       : output : 2.5 V             :         
 SSEG_OUT[19]                 : W21       : output : 2.5 V             :         : 5A        : Y              
 VCCPGM                       : W22       : power  :                   : 2.5V    :           :                
 VREFB5AN0                    : W23       : power  :                   :         : 5A        :                
-VCCIO5B                      : W24       : power  :                   : 3.3V    : 5B        :                
-HDMI_TX_D[2]                 : W25       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_D[3]                 : W26       : output : 3.3-V LVTTL       :         : 5B        : Y              
+VCCIO5B                      : W24       : power  :                   : 2.5V    : 5B        :                
+HDMI_TX_D[2]                 : W25       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_D[3]                 : W26       : output : 2.5 V             :         : 5B        : Y              
 GND                          : Y1        :        :                   :         : B0L       :                
 GND                          : Y2        :        :                   :         : B0L       :                
 GND                          : Y3        : gnd    :                   :         :           :                
@@ -736,7 +736,7 @@ GND                          : Y12       : gnd    :                   :         
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y13       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y14       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y15       :        :                   :         : 4A        :                
-i2c_reg_read                 : Y16       : input  : 2.5 V             :         : 4A        : Y              
+I2C_REG_READ                 : Y16       : input  : 2.5 V             :         : 4A        : Y              
 VCCIO4A                      : Y17       : power  :                   : 2.5V    : 4A        :                
 SSEG_OUT[6]                  : Y18       : output : 2.5 V             :         : 4A        : Y              
 SSEG_OUT[5]                  : Y19       : output : 2.5 V             :         : 4A        : Y              
@@ -745,5 +745,5 @@ VCCA_FPLL                    : Y21       : power  :                   : 2.5V    
 GND                          : Y22       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y23       :        :                   :         : 5A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y24       :        :                   :         : 5A        :                
-HDMI_TX_CLK                  : Y25       : output : 3.3-V LVTTL       :         : 5B        : Y              
-HDMI_TX_DE                   : Y26       : output : 3.3-V LVTTL       :         : 5B        : Y              
+HDMI_TX_CLK                  : Y25       : output : 2.5 V             :         : 5B        : Y              
+HDMI_TX_DE                   : Y26       : output : 2.5 V             :         : 5B        : Y              
