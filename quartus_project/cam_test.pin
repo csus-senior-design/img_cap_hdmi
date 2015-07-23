@@ -330,7 +330,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : D22       :        :                   :      
 GND                          : D23       :        :                   :         : 7A        :                
 GND                          : D24       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D25       :        :                   :         : 6A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : D26       :        :                   :         : 6A        :                
+camGPIO[1]                   : D26       : output : 2.5 V             :         : 6A        : Y              
 GND                          : E1        : gnd    :                   :         :           :                
 GND                          : E2        : gnd    :                   :         :           :                
 NC                           : E3        :        :                   :         :           :                
@@ -637,7 +637,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : T17       :        :                   :      
 VCC                          : T18       : power  :                   : 1.1V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T19       :        :                   :         : 5A        :                
 GND                          : T20       : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : T21       :        :                   :         : 5B        :                
+camGPIO[0]                   : T21       : output : 2.5 V             :         : 5B        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : T22       :        :                   :         : 5B        :                
 HDMI_TX_D[7]                 : T23       : output : 2.5 V             :         : 5B        : Y              
 HDMI_TX_D[8]                 : T24       : output : 2.5 V             :         : 5B        : Y              

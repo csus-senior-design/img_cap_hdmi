@@ -92,10 +92,10 @@ module cam_test #(
         output [20:0] SSEG_OUT,
 
         // GPIO for Camera Interfaces
-        /*(*
+        (*
           chip_pin = "D26, T21"
         *)
-        inout  [1:0] camGPIO,*/
+        output  [1:0] camGPIO,
 
         // LED Status Indicators
         (*
@@ -155,9 +155,8 @@ module cam_test #(
     reg [31:0] delay_tick;
     reg delay_done;
 
-    //assign camGPIO[0] = I2C_SCL;
-    //assign camGPIO[1] = I2C_SDA;
-
+    assign camGPIO[0] = I2C_SCL;
+    assign camGPIO[1] = I2C_SDA;
 
     `ifdef SIM
         assign HDMI_TX_CLK = CLOCK_50_B5B;
