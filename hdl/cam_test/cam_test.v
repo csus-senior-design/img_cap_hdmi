@@ -134,13 +134,10 @@ module cam_test #(
     wire [7:0] b_out;
 
     wire [7:0] I2C_REG_DATA;
-
-    wire clk_in;
+    
     wire clk_1us;
 
     wire pll_locked;
-
-    assign clk_in = ~CLOCK_50_B5B;
 
     localparam  [3:0] s_idle                   = 0,
                       s_startup                = 1,
@@ -172,7 +169,7 @@ module cam_test #(
         );
     `else
         pll pll_inst (
-            .refclk(~CLOCK_50_B5B),
+            .refclk(CLOCK_50_B5B),
             .rst(1'b0),
             .outclk_0(HDMI_TX_CLK),
             .outclk_1(clk_1us),
@@ -254,7 +251,7 @@ module cam_test #(
 
     /* ********************* */
     sync_vg #(.X_BITS(12), .Y_BITS(12)) sync_vg (
-        .clk(clk_in),
+        .clk(CLOCK_B5B),
         .reset(RESET),
         .interlaced(INTERLACED),
         .clk_out(), // inverted output clock - unconnected
@@ -289,7 +286,7 @@ module cam_test #(
         .FRACTIONAL_BITS(12)) // Number of fractional bits for ramp pattern
     pattern_vg (
         .reset(RESET),
-        .clk_in(clk_in),
+        .clk_in(CLOCK_B5B),
         .x(x_out),
         .y(y_out[11:0]),
         .vn_in(vs),
@@ -316,7 +313,7 @@ module cam_test #(
         .CHIP_ADDR(ADV7513_CHIP_ADDR),
         .I2C_CLKDIV(I2C_CLKDIV)
     ) adv7513_init (
-        .clk(clk_in),
+        .clk(CLOCK_B5B),
         .reset(RESET),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
@@ -328,7 +325,7 @@ module cam_test #(
         .CHIP_ADDR(ADV7513_CHIP_ADDR),
         .I2C_CLKDIV(I2C_CLKDIV)
     ) adv7513_reg_read (
-        .clk(clk_in),
+        .clk(CLOCK_B5B),
         .reset(RESET),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
@@ -378,7 +375,7 @@ module cam_test #(
         end
     end
 
-    always @ (posedge clk_in) begin
+    always @ (posedge CLOCK_B5B) begin
         if (~RESET) begin
             state <= s_startup;
 
