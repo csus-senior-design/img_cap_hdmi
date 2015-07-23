@@ -92,7 +92,10 @@ module cam_test #(
         output [20:0] SSEG_OUT,
 
         // GPIO for Camera Interfaces
-        //inout  [21:0] camGPIO,
+        /*(*
+          chip_pin = "D26, T21"
+        *)
+        inout  [1:0] camGPIO,*/
 
         // LED Status Indicators
         (*
@@ -251,7 +254,7 @@ module cam_test #(
 
     /* ********************* */
     sync_vg #(.X_BITS(12), .Y_BITS(12)) sync_vg (
-        .clk(CLOCK_B5B),
+        .clk(CLOCK_50_B5B),
         .reset(RESET),
         .interlaced(INTERLACED),
         .clk_out(), // inverted output clock - unconnected
@@ -286,7 +289,7 @@ module cam_test #(
         .FRACTIONAL_BITS(12)) // Number of fractional bits for ramp pattern
     pattern_vg (
         .reset(RESET),
-        .clk_in(CLOCK_B5B),
+        .clk_in(CLOCK_50_B5B),
         .x(x_out),
         .y(y_out[11:0]),
         .vn_in(vs),
@@ -313,7 +316,7 @@ module cam_test #(
         .CHIP_ADDR(ADV7513_CHIP_ADDR),
         .I2C_CLKDIV(I2C_CLKDIV)
     ) adv7513_init (
-        .clk(CLOCK_B5B),
+        .clk(CLOCK_50_B5B),
         .reset(RESET),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
@@ -325,7 +328,7 @@ module cam_test #(
         .CHIP_ADDR(ADV7513_CHIP_ADDR),
         .I2C_CLKDIV(I2C_CLKDIV)
     ) adv7513_reg_read (
-        .clk(CLOCK_B5B),
+        .clk(CLOCK_50_B5B),
         .reset(RESET),
         .scl(I2C_SCL),
         .sda(I2C_SDA),
@@ -356,7 +359,6 @@ module cam_test #(
         .sseg(SSEG_OUT[20:14])
     );
 
-
     always @ (posedge clk_1us) begin
         if (~RESET) begin
             delay_done <= 1'b0;
@@ -375,7 +377,7 @@ module cam_test #(
         end
     end
 
-    always @ (posedge CLOCK_B5B) begin
+    always @ (posedge CLOCK_50_B5B) begin
         if (~RESET) begin
             state <= s_startup;
 
