@@ -42,74 +42,93 @@ module cam_test #(
         input   CLOCK_50_B8A,
 
         (*
-          chip_pin = "AB24"
+          chip_pin = "AB24",
+          useioff = 1
         *)
         input   RESET,
 
         // HDMI-TX via ADV7513
         (*
-          chip_pin = "Y25"
+          chip_pin = "Y25",
+          useioff = 1
         *)
         output  HDMI_TX_CLK,
         (*
-          chip_pin = "Y26"
+          chip_pin = "Y26",
+          useioff = 1
         *)
         output  HDMI_TX_DE,
         (*
-          chip_pin = "U26"
+          chip_pin = "U26",
+          useioff = 1
         *)
         output  HDMI_TX_HS,
         (*
-          chip_pin = "U25"
+          chip_pin = "U25",
+          useioff = 1
         *)
         output  HDMI_TX_VS,
         (*
-          chip_pin = "AD25, AC25, AB25, AA24, AB26, R26, R24, P21, P26, N25, P23, P22, R25, R23, T26, T24, T23, U24, V25, V24, W26, W25, AA26, V23"
+          chip_pin = "AD25, AC25, AB25, AA24, AB26, R26, R24, P21, P26, N25,\
+                        P23, P22, R25, R23, T26, T24, T23, U24, V25, V24, W26,\
+                        W25, AA26, V23",
+          useioff = 1
         *)
         output  [23:0] HDMI_TX_D,
         (*
-          chip_pin = "T12"
+          chip_pin = "T12",
+          useioff = 1
         *)
         input   HDMI_TX_INT,
 
         // i2c for HDMI-TX
         (*
-          chip_pin = "B7"
+          chip_pin = "B7",
+          useioff = 1
         *)
         inout  I2C_SCL,
         (*
-          chip_pin = "G11"
+          chip_pin = "G11",
+          useioff = 1
         *)
         inout  I2C_SDA,
 
         (*
-          chip_pin = "AC10, V10, AB10, W11, AC8, AD13, AE10, AC9"
+          chip_pin = "AC10, V10, AB10, W11, AC8, AD13, AE10, AC9",
+          useioff = 1
         *)
         input  [7:0]  I2C_REG,
         (*
-          chip_pin = "W20, W21, V20, V22, U20, AD6, AD7, AF24, AC19, AE25, AE26, AB19, AD26, AA18, Y18, Y19, Y20, W18, V17, V18, V19"
+          chip_pin = "W20, W21, V20, V22, U20, AD6, AD7, AF24, AC19, AE25,\
+                        AE26, AB19, AD26, AA18, Y18, Y19, Y20, W18, V17, V18,\
+                        V19",
+          useioff = 1
         *)
         output [20:0] SSEG_OUT,
 
         // GPIO for Camera Interfaces
         (*
-          chip_pin = "D26, T21"
+          chip_pin = "D26, T21",
+          useioff = 1
         *)
         output  [1:0] camGPIO,
 
         // LED Status Indicators
         (*
-          chip_pin = "J10, H7, K8, K10, J7, J8, G7, G6, F6, F7"
+          chip_pin = "J10, H7, K8, K10, J7, J8, G7, G6, F6, F7",
+          useioff = 1
         *)
         output reg [9:0] LEDR,
         (*
-          chip_pin = "L7, K6, D8, E9, A5, B6, H8, H9"
+          chip_pin = "L7, K6, D8, E9, A5, B6, H8, H9",
+          useioff = 1
         *)
         output reg [7:0] LEDG,
 
         // User interfaces
         (*
-          chip_pin = "Y16"
+          chip_pin = "Y16",
+          useioff = 1
         *)
         input I2C_REG_READ
     );
