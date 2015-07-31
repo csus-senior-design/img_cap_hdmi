@@ -451,7 +451,7 @@ module cam_test #(
 
                 s_adv7513_reg_read_wait: begin
                     adv7513_reg_read_start <= 1'b0;
-                    state <= (delay_done && adv7513_reg_read_done) ? s_idle : s_adv7513_reg_read_wait;
+                    state <= (/*delay_done && */adv7513_reg_read_done) ? s_idle : s_adv7513_reg_read_wait;
                 end
             endcase
         end
