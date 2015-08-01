@@ -18,12 +18,12 @@ module slow_input_flop #(
     always @(posedge clk) begin
         out <= DEF_VAL;
         
-        if (rst || cnt == WAIT_TIME) begin
+        if (~rst || cnt == WAIT_TIME) begin
             cnt <= 19'd0;
-        end else if (cnt <= HOLD_CYCLES) begin
+        end else if (cnt <= HOLD_CYCLES && in == ~DEF_VAL) begin
             out <= in;
             cnt <= cnt + 20'd1;
-        end else
+        end else if (in == ~DEF_VAL)
             cnt <= cnt + 20'd1;
     end
 

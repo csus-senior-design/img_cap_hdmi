@@ -9,15 +9,15 @@
 module cam_test #(
         // for testbenching
         `ifdef SIM
-            parameter ADV7513_INIT_DELAY = 32'd250, // 250ms
+            parameter ADV7513_INIT_DELAY = 24'd250, // 250ms
         `else
-            parameter ADV7513_INIT_DELAY = 32'd1000000,
+            parameter ADV7513_INIT_DELAY = 24'd1000000,
         `endif
 
         parameter ADV7513_CHIP_ADDR = 7'h39,
 
         parameter I2C_CLKDIV = 12'd125,
-        parameter I2C_TXN_DELAY = 32'd600
+        parameter I2C_TXN_DELAY = 24'd600
     )(
         // Clock signals
         (*
@@ -103,7 +103,7 @@ module cam_test #(
         *)
         output reg [9:0] LEDR,
         (*
-          chip_pin = "L7, K6, D8, E9, A5, B6, H8, H9"
+          chip_pin = "H9, H8, B6, A5, E9, D8, K6, L7"
         *)
         output reg [7:0] LEDG,
 
@@ -154,7 +154,7 @@ module cam_test #(
     (* syn_encoding = "safe" *)
     reg [3:0] state;
 
-    reg [31:0] delay_tick;
+    reg [23:0] delay_tick;
     reg delay_done;
 
     //assign camGPIO[0] = I2C_SCL;
@@ -172,6 +172,8 @@ module cam_test #(
             .clk_out(clk_1us)
         );
     `else
+        reg pll_rst;
+        
         pll pll_inst (
             .refclk(CLOCK_50_B5B),
             .rst(1'b0),
@@ -179,6 +181,12 @@ module cam_test #(
             .outclk_1(clk_1us),
             .locked(pll_locked)
     	);
+        
+        always @(posedge CLOCK_50_B5B)
+            if (~pll_locked || ~RESET)
+                pll_rst <= 1'b1;
+            else
+                pll_rst <= 1'b0;
     `endif
 
     assign HDMI_TX_D  = {r_out, g_out, b_out};
@@ -370,10 +378,11 @@ module cam_test #(
     always @ (posedge clk_1us) begin
         if (~RESET) begin
             delay_done <= 1'b0;
-            delay_tick <= 32'd0;
+            delay_tick <= 24'd0;
         end
         else begin
             delay_done <= (
+                (state == s_idle) ||
                 (state == s_startup                && delay_tick == ADV7513_INIT_DELAY) ||
                 (state == s_adv7513_init_start     && delay_tick == 1) ||
                 (state == s_adv7513_init_wait      && delay_tick == ADV7513_INIT_DELAY) ||
@@ -381,7 +390,7 @@ module cam_test #(
                 (state == s_adv7513_reg_read_wait  && delay_tick == I2C_TXN_DELAY)
             ) ? 1'b1 : 1'b0;
 
-            delay_tick <= (delay_done == 1'b1) ? 32'd0 : delay_tick + 1'b1;
+            delay_tick <= (delay_done == 1'b1) ? 24'd0 : delay_tick + 24'b1;
         end
     end
 
@@ -431,7 +440,7 @@ module cam_test #(
 
                 s_adv7513_init_wait: begin
                     adv7513_init_start <= 1'b0;
-                    state <= (delay_done && adv7513_init_done) ? s_idle : s_adv7513_init_wait;
+                    state <= (delay_done /*&& adv7513_init_done*/) ? s_idle : s_adv7513_init_wait;
                 end
 
                 s_adv7513_reg_read_start: begin
@@ -441,10 +450,9 @@ module cam_test #(
 
                 s_adv7513_reg_read_wait: begin
                     adv7513_reg_read_start <= 1'b0;
-                    state <= (/*delay_done && */adv7513_reg_read_done) ? s_idle : s_adv7513_reg_read_wait;
+                    state <= (delay_done /*&& adv7513_reg_read_done*/) ? s_idle : s_adv7513_reg_read_wait;
                 end
             endcase
         end
     end
 endmodule
-
