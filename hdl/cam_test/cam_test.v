@@ -42,7 +42,7 @@ module cam_test #(
         input   CLOCK_50_B8A,
 
         (*
-          chip_pin = "AB24"
+          chip_pin = "P11"
         *)
         input   RESET,
 

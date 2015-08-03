@@ -17,3 +17,4 @@
 /quartus_project/*.sof
 /quartus_project/*.summary
 quartus_project/tb2_ie_info.xml
+*.pin
