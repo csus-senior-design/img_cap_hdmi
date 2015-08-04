@@ -172,21 +172,21 @@ module cam_test #(
             .clk_out(clk_1us)
         );
     `else
-        reg pll_rst;
+        //reg pll_rst;
         
         pll pll_inst (
             .refclk(CLOCK_50_B5B),
-            .rst(1'b0),
+            .rst(1'b0),             // Active high
             .outclk_0(HDMI_TX_CLK),
             .outclk_1(clk_1us),
             .locked(pll_locked)
     	);
         
-        always @(posedge CLOCK_50_B5B)
+        /*always @(posedge CLOCK_50_B5B)
             if (~pll_locked || ~RESET)
-                pll_rst <= 1'b1;
-            else
                 pll_rst <= 1'b0;
+            else
+                pll_rst <= 1'b1;*/
     `endif
 
     assign HDMI_TX_D  = {r_out, g_out, b_out};
@@ -384,9 +384,9 @@ module cam_test #(
             delay_done <= (
                 (state == s_idle) ||
                 (state == s_startup                && delay_tick == ADV7513_INIT_DELAY) ||
-                (state == s_adv7513_init_start     && delay_tick == 1) ||
+                (state == s_adv7513_init_start/*     && delay_tick == 1*/) ||
                 (state == s_adv7513_init_wait      && delay_tick == ADV7513_INIT_DELAY) ||
-                (state == s_adv7513_reg_read_start && delay_tick == 1) ||
+                (state == s_adv7513_reg_read_start/* && delay_tick == 1*/) ||
                 (state == s_adv7513_reg_read_wait  && delay_tick == I2C_TXN_DELAY)
             ) ? 1'b1 : 1'b0;
 
