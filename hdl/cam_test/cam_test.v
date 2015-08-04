@@ -14,7 +14,7 @@ module cam_test #(
             parameter ADV7513_INIT_DELAY = 24'd1000000,
         `endif
 
-        parameter ADV7513_CHIP_ADDR = 7'h39,
+        parameter ADV7513_CHIP_ADDR = 7'h39,    // 0x72 >> 1
 
         parameter I2C_CLKDIV = 12'd125,
         parameter I2C_TXN_DELAY = 24'd600
