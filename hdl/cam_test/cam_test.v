@@ -9,15 +9,15 @@
 module cam_test #(
         // for testbenching
         `ifdef SIM
-            parameter ADV7513_INIT_DELAY = 24'd250, // 250ms
+            parameter ADV7513_INIT_DELAY = 29'd250, // 250ms
         `else
-            parameter ADV7513_INIT_DELAY = 24'd1000000,
+            parameter ADV7513_INIT_DELAY = 29'd50000000, // 1s with 50MHz clock
         `endif
 
         parameter ADV7513_CHIP_ADDR = 7'h39,    // 0x72 >> 1
 
         parameter I2C_CLKDIV = 12'd125,
-        parameter I2C_TXN_DELAY = 24'd600
+        parameter I2C_TXN_DELAY = 29'd30000     // 600µs with 50MHz clock
     )(
         // Clock signals
         (*
@@ -154,7 +154,7 @@ module cam_test #(
     (* syn_encoding = "safe" *)
     reg [3:0] state;
 
-    reg [23:0] delay_tick;
+    reg [28:0] delay_tick;
     reg delay_done;
 
     //assign camGPIO[0] = I2C_SCL;
@@ -375,22 +375,22 @@ module cam_test #(
         .out(reg_read)
     );
 
-    always @ (posedge clk_1us) begin
+    always @ (posedge /*clk_1us*/CLOCK_50_B5B) begin
         if (~RESET) begin
             delay_done <= 1'b0;
-            delay_tick <= 24'd0;
+            delay_tick <= 29'd0;
         end
         else begin
             delay_done <= (
                 (state == s_idle) ||
                 (state == s_startup                && delay_tick == ADV7513_INIT_DELAY) ||
-                (state == s_adv7513_init_start/*     && delay_tick == 1*/) ||
+                //(state == s_adv7513_init_start/*     && delay_tick == 1*/) ||
                 (state == s_adv7513_init_wait      && delay_tick == ADV7513_INIT_DELAY) ||
-                (state == s_adv7513_reg_read_start/* && delay_tick == 1*/) ||
+                //(state == s_adv7513_reg_read_start/* && delay_tick == 1*/) ||
                 (state == s_adv7513_reg_read_wait  && delay_tick == I2C_TXN_DELAY)
             ) ? 1'b1 : 1'b0;
 
-            delay_tick <= (delay_done == 1'b1) ? 24'd0 : delay_tick + 24'b1;
+            delay_tick <= (delay_done == 1'b1) ? 29'd0 : delay_tick + 29'b1;
         end
     end
 
