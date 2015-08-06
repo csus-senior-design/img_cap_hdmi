@@ -33,7 +33,8 @@ module cam_test #(
 
 	parameter ADV7513_CHIP_ADDR = 7'h39,    // 0x72 >> 1
 
-	parameter I2C_CLKDIV = 12'd125,
+	parameter I2C_CLKDIV = 12'd125,			// This value is multiplied by four
+											// somewhere, so 125 divides by 500
 	parameter I2C_TXN_DELAY = 29'd30000     // 600µs with 50MHz clock
 )(
 	// Clock signals
