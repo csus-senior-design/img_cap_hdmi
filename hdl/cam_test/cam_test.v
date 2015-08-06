@@ -1,3 +1,20 @@
+/*
+----------------------------------------
+Stereoscopic Vision System
+Senior Design Project - Team 11
+California State University, Sacramento
+Spring 2015 / Fall 2015
+----------------------------------------
+
+ADV7513 Driver
+Authors:  Greg M. Crist, Jr. (gmcrist@gmail.com)
+          Padraic Hagerty    (guitarisrockin@hotmail.com)
+
+Description:
+  Initializes and drives the ADV7513 IC on the Terasic Cyclone V Starter GX
+  board
+*/
+
 `ifdef IVERILOG
     `define SIM
 `endif
@@ -7,112 +24,112 @@
 `endif
 
 module cam_test #(
-        // for testbenching
-        `ifdef SIM
-            parameter ADV7513_INIT_DELAY = 29'd250, // 250ms
-        `else
-            parameter ADV7513_INIT_DELAY = 29'd50000000, // 1s with 50MHz clock
-        `endif
+	// for testbenching
+	`ifdef SIM
+		parameter ADV7513_INIT_DELAY = 29'd250, // 250ms
+	`else
+		parameter ADV7513_INIT_DELAY = 29'd50000000, // 1s with 50MHz clock
+	`endif
 
-        parameter ADV7513_CHIP_ADDR = 7'h39,    // 0x72 >> 1
+	parameter ADV7513_CHIP_ADDR = 7'h39,    // 0x72 >> 1
 
-        parameter I2C_CLKDIV = 12'd125,
-        parameter I2C_TXN_DELAY = 29'd30000     // 600µs with 50MHz clock
-    )(
-        // Clock signals
-        (*
-          chip_pin = "U12"
-        *)
-        input   CLOCK_125_p,
-        (*
-          chip_pin = "R20"
-        *)
-        input   CLOCK_50_B5B,
-        (*
-          chip_pin = "N20"
-        *)
-        input   CLOCK_50_B6A,
-        (*
-          chip_pin = "H12"
-        *)
-        input   CLOCK_50_B7A,
-        (*
-          chip_pin = "M10"
-        *)
-        input   CLOCK_50_B8A,
+	parameter I2C_CLKDIV = 12'd125,
+	parameter I2C_TXN_DELAY = 29'd30000     // 600µs with 50MHz clock
+)(
+	// Clock signals
+	(*
+	  chip_pin = "U12"
+	*)
+	input   CLOCK_125_p,
+	(*
+	  chip_pin = "R20"
+	*)
+	input   CLOCK_50_B5B,
+	(*
+	  chip_pin = "N20"
+	*)
+	input   CLOCK_50_B6A,
+	(*
+	  chip_pin = "H12"
+	*)
+	input   CLOCK_50_B7A,
+	(*
+	  chip_pin = "M10"
+	*)
+	input   CLOCK_50_B8A,
 
-        (*
-          chip_pin = "P11"
-        *)
-        input   RESET,
+	(*
+	  chip_pin = "P11"
+	*)
+	input   RESET,
 
-        // HDMI-TX via ADV7513
-        (*
-          chip_pin = "Y25"
-        *)
-        output  HDMI_TX_CLK,
-        (*
-          chip_pin = "Y26"
-        *)
-        output  HDMI_TX_DE,
-        (*
-          chip_pin = "U26"
-        *)
-        output  HDMI_TX_HS,
-        (*
-          chip_pin = "U25"
-        *)
-        output  HDMI_TX_VS,
-        (*
-          chip_pin = "AD25, AC25, AB25, AA24, AB26, R26, R24, P21, P26, N25, P23, P22, R25, R23, T26, T24, T23, U24, V25, V24, W26, W25, AA26, V23"
-        *)
-        output  [23:0] HDMI_TX_D,
-        (*
-          chip_pin = "T12"
-        *)
-        input   HDMI_TX_INT,
+	// HDMI-TX via ADV7513
+	(*
+	  chip_pin = "Y25"
+	*)
+	output  HDMI_TX_CLK,
+	(*
+	  chip_pin = "Y26"
+	*)
+	output  HDMI_TX_DE,
+	(*
+	  chip_pin = "U26"
+	*)
+	output  HDMI_TX_HS,
+	(*
+	  chip_pin = "U25"
+	*)
+	output  HDMI_TX_VS,
+	(*
+	  chip_pin = "AD25, AC25, AB25, AA24, AB26, R26, R24, P21, P26, N25, P23, P22, R25, R23, T26, T24, T23, U24, V25, V24, W26, W25, AA26, V23"
+	*)
+	output  [23:0] HDMI_TX_D,
+	(*
+	  chip_pin = "T12"
+	*)
+	input   HDMI_TX_INT,
 
-        // i2c for HDMI-TX
-        (*
-          chip_pin = "B7"
-        *)
-        inout  I2C_SCL,
-        (*
-          chip_pin = "G11"
-        *)
-        inout  I2C_SDA,
+	// i2c for HDMI-TX
+	(*
+	  chip_pin = "B7"
+	*)
+	inout  I2C_SCL,
+	(*
+	  chip_pin = "G11"
+	*)
+	inout  I2C_SDA,
 
-        (*
-          chip_pin = "AC10, V10, AB10, W11, AC8, AD13, AE10, AC9"
-        *)
-        input  [7:0]  I2C_REG,
-        (*
-          chip_pin = "W20, W21, V20, V22, U20, AD6, AD7, AF24, AC19, AE25, AE26, AB19, AD26, AA18, Y18, Y19, Y20, W18, V17, V18, V19"
-        *)
-        output [20:0] SSEG_OUT,
+	(*
+	  chip_pin = "AC10, V10, AB10, W11, AC8, AD13, AE10, AC9"
+	*)
+	input  [7:0]  I2C_REG,
+	(*
+	  chip_pin = "W20, W21, V20, V22, U20, AD6, AD7, AF24, AC19, AE25, AE26, AB19, AD26, AA18, Y18, Y19, Y20, W18, V17, V18, V19"
+	*)
+	output [20:0] SSEG_OUT,
 
-        // GPIO for Camera Interfaces
-        (*
-          chip_pin = "D26, T21"
-        *)
-        output  [1:0] camGPIO,
+	// GPIO for Camera Interfaces
+	/*(*
+	  chip_pin = "D26, T21"
+	*)
+	output  [1:0] camGPIO,*/
 
-        // LED Status Indicators
-        (*
-          chip_pin = "J10, H7, K8, K10, J7, J8, G7, G6, F6, F7"
-        *)
-        output reg [9:0] LEDR,
-        (*
-          chip_pin = "H9, H8, B6, A5, E9, D8, K6, L7"
-        *)
-        output reg [7:0] LEDG,
+	// LED Status Indicators
+	(*
+	  chip_pin = "J10, H7, K8, K10, J7, J8, G7, G6, F6, F7"
+	*)
+	output reg [9:0] LEDR,
+	(*
+	  chip_pin = "H9, H8, B6, A5, E9, D8, K6, L7"
+	*)
+	output reg [7:0] LEDG,
 
-        // User interfaces
-        (*
-          chip_pin = "Y16"
-        *)
-        input I2C_REG_READ
-    );
+	// User interfaces
+	(*
+	  chip_pin = "Y16"
+	*)
+	input I2C_REG_READ
+);
 
     wire de;
     wire vs;
