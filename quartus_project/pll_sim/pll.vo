@@ -1,11 +1,11 @@
 //IP Functional Simulation Model
-//VERSION_BEGIN 14.1 cbx_mgl 2014:12:03:18:06:09:SJ cbx_simgen 2014:12:03:18:04:04:SJ  VERSION_END
+//VERSION_BEGIN 15.0 cbx_mgl 2015:04:22:18:06:50:SJ cbx_simgen 2015:04:22:18:04:08:SJ  VERSION_END
 // synthesis VERILOG_INPUT_VERSION VERILOG_2001
 // altera message_off 10463
 
 
 
-// Copyright (C) 1991-2014 Altera Corporation. All rights reserved.
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
 // Your use of Altera Corporation's design tools, logic functions 
 // and other software and tools, and its AMPP partner logic 
 // functions, and any output files from any of the foregoing 
@@ -229,8 +229,8 @@ module  pll
 		pll_altera_pll_altera_pll_i_1098.n_cnt_odd_div_duty_en = "false",
 		pll_altera_pll_altera_pll_i_1098.number_of_clocks = 2,
 		pll_altera_pll_altera_pll_i_1098.operation_mode = "direct",
-		pll_altera_pll_altera_pll_i_1098.output_clock_frequency0 = "60.000000 MHz",
-		pll_altera_pll_altera_pll_i_1098.output_clock_frequency1 = "1.000000 MHz",
+		pll_altera_pll_altera_pll_i_1098.output_clock_frequency0 = "25.200000 MHz",
+		pll_altera_pll_altera_pll_i_1098.output_clock_frequency1 = "1.230468 MHz",
 		pll_altera_pll_altera_pll_i_1098.output_clock_frequency10 = "0 MHz",
 		pll_altera_pll_altera_pll_i_1098.output_clock_frequency11 = "0 MHz",
 		pll_altera_pll_altera_pll_i_1098.output_clock_frequency12 = "0 MHz",

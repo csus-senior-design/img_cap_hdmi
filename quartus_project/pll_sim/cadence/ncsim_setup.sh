@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 14.1 186 win32 2015.04.22.16:07:15
+# ACDS 15.0 145 win32 2015.08.09.16:56:07
 
 # ----------------------------------------
 # ncsim - auto-generated simulation script
@@ -21,7 +21,7 @@
 # initialize variables
 TOP_LEVEL_NAME="pll"
 QSYS_SIMDIR="./../"
-QUARTUS_INSTALL_DIR="C:/altera/14.1/quartus/"
+QUARTUS_INSTALL_DIR="C:/altera/15.0/quartus/"
 SKIP_FILE_COPY=0
 SKIP_DEV_COM=0
 SKIP_COM=0
