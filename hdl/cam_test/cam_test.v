@@ -90,7 +90,7 @@ module cam_test #(
 	*)
 	input   HDMI_TX_INT,
 
-	// i2c for HDMI-TX
+	// Internal i2c bus for HDMI-TX
 	(*
 	  chip_pin = "B7"
 	*)
@@ -109,11 +109,11 @@ module cam_test #(
 	*)
 	output [20:0] SSEG_OUT,
 
-	// GPIO for Camera Interfaces
-	/*(*
+	// GPIO outputs for snooping the internal i2c bus
+	(*
 	  chip_pin = "D26, T21"
 	*)
-	output  [1:0] camGPIO,*/
+	output  [1:0] i2c_snoop,
 
 	// LED Status Indicators
 	(*
@@ -175,8 +175,8 @@ module cam_test #(
     reg [28:0] delay_tick;
     reg delay_done;
 
-    //assign camGPIO[0] = I2C_SCL;
-    //assign camGPIO[1] = I2C_SDA;
+    assign i2c_snoop[0] = I2C_SCL;
+    assign i2c_snoop[1] = I2C_SDA;
 
     `ifdef SIM
         assign HDMI_TX_CLK = CLOCK_50_B5B;
@@ -212,76 +212,51 @@ module cam_test #(
     assign HDMI_TX_HS = hs_out;
     assign HDMI_TX_VS = vs_out;
 
-    //`define MODE_1080p
-    //`define MODE_1080i
-    `define MODE_720p
-
-    `ifdef MODE_1080p /* FORMAT 16 */
-        localparam INTERLACED = 1'b0;
-        localparam V_TOTAL_0 = 12'd1125;
-        localparam V_FP_0 = 12'd4;
-        localparam V_BP_0 = 12'd36;
-        localparam V_SYNC_0 = 12'd5;
-        localparam V_TOTAL_1 = 12'd0;
-        localparam V_FP_1 = 12'd0;
-        localparam V_BP_1 = 12'd0;
-        localparam V_SYNC_1 = 12'd0;
-        localparam H_TOTAL = 12'd2200;
-        localparam H_FP = 12'd88;
-        localparam H_BP = 12'd148;
-        localparam H_SYNC = 12'd44;
-        localparam HV_OFFSET_0 = 12'd0;
-        localparam HV_OFFSET_1 = 12'd0;
-        localparam PATTERN_RAMP_STEP = 20'h0222;
-        localparam PATTERN_TYPE = 8'd4; // RAMP
-        //localparam PATTERN_TYPE = 8'd1; // OUTLINE
-    `endif
-
-    `ifdef MODE_1080i /* FORMAT 5 */
-        localparam INTERLACED = 1'b1;
-        localparam V_TOTAL_0 = 12'd562;
-        localparam V_FP_0 = 12'd2;
-        localparam V_BP_0 = 12'd15;
-        localparam V_SYNC_0 = 12'd5;
-        localparam V_TOTAL_1 = 12'd563;
-        localparam V_FP_1 = 12'd2;
-        localparam V_BP_1 = 12'd16;
-        localparam V_SYNC_1 = 12'd5;
-        localparam H_TOTAL = 12'd2200;
-        localparam H_FP = 12'd88;
-        localparam H_BP = 12'd148;
-        localparam H_SYNC = 12'd44;
-        localparam HV_OFFSET_0 = 12'd0;
-        localparam HV_OFFSET_1 = 12'd1100;
-        localparam PATTERN_RAMP_STEP = 20'h0222; // 20'hFFFFF / 1920 act_pixels per line = 20'h0222
-        localparam PATTERN_TYPE = 8'd4; // RAMP
-        //localparam PATTERN_TYPE = 8'd1; // OUTLINE
-    `endif
-
-    `ifdef MODE_720p /* FORMAT 4 */
-        localparam INTERLACED = 1'b0;
-        localparam V_TOTAL_0 = 12'd750;
-        localparam V_FP_0 = 12'd5;
-        localparam V_BP_0 = 12'd20;
-        localparam V_SYNC_0 = 12'd5;
-        localparam V_TOTAL_1 = 12'd0;
-        localparam V_FP_1 = 12'd0;
-        localparam V_BP_1 = 12'd0;
-        localparam V_SYNC_1 = 12'd0;
-        localparam H_TOTAL = 12'd1650;
-        localparam H_FP = 12'd110;
-        localparam H_BP = 12'd220;
-        localparam H_SYNC = 12'd40;
-        localparam HV_OFFSET_0 = 12'd0;
-        localparam HV_OFFSET_1 = 12'd0;
-        localparam PATTERN_RAMP_STEP = 20'h0333; // 20'hFFFFF / 1280 act_pixels per line = 20'h0333
-        //localparam PATTERN_TYPE = 8'd1; // BORDER.
-        localparam PATTERN_TYPE = 8'd4; // RAMP
-    `endif
-
+    localparam VIDEO_FORMAT = 8'd1; // Format 1 (640 x 480p @ 60Hz)
+    
     /* ********************* */
+    wire INTERLACED;
+    wire [11:0] V_TOTAL_0;
+    wire [11:0] V_FP_0;
+    wire [11:0] V_BP_0;
+    wire [11:0] V_SYNC_0;
+    wire [11:0] V_TOTAL_1;
+    wire [11:0] V_FP_1;
+    wire [11:0] V_BP_1;
+    wire [11:0] V_SYNC_1;
+    wire [11:0] H_TOTAL;
+    wire [11:0] H_FP;
+    wire [11:0] H_BP;
+    wire [11:0] H_SYNC;
+    wire [11:0] HV_OFFSET_0;
+    wire [11:0] HV_OFFSET_1;
+    wire [19:0] PATTERN_RAMP_STEP;
+    wire  [7:0] PATTERN_TYPE;
+
+    assign PATTERN_TYPE = 8'd6;
+    
+    format_vg format_vg (
+        .FORMAT(VIDEO_FORMAT),
+        .INTERLACED(INTERLACED),
+        .V_TOTAL_0(V_TOTAL_0),
+        .V_FP_0(V_FP_0),
+        .V_BP_0(V_BP_0),
+        .V_SYNC_0(V_SYNC_0),
+        .V_TOTAL_1(V_TOTAL_1),
+        .V_FP_1(V_FP_1),
+        .V_BP_1(V_BP_1),
+        .V_SYNC_1(V_SYNC_1),
+        .H_TOTAL(H_TOTAL),
+        .H_FP(H_FP),
+        .H_BP(H_BP),
+        .H_SYNC(H_SYNC),
+        .HV_OFFSET_0(HV_OFFSET_0),
+        .HV_OFFSET_1(HV_OFFSET_1),
+        .PATTERN_RAMP_STEP(PATTERN_RAMP_STEP)
+    );
+
     sync_vg #(.X_BITS(12), .Y_BITS(12)) sync_vg (
-        .clk(CLOCK_50_B5B),
+        .clk(HDMI_TX_CLK),
         .reset(RESET),
         .interlaced(INTERLACED),
         .clk_out(), // inverted output clock - unconnected
@@ -316,7 +291,7 @@ module cam_test #(
         .FRACTIONAL_BITS(12)) // Number of fractional bits for ramp pattern
     pattern_vg (
         .reset(RESET),
-        .clk_in(CLOCK_50_B5B),
+        .clk_in(HDMI_TX_CLK),
         .x(x_out),
         .y(y_out[11:0]),
         .vn_in(vs),
