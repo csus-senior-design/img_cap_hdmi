@@ -1,10 +1,10 @@
 
 [submodule "hdl/videogen"]
 	path = hdl/videogen
-	url = https://github.com/csus-senior-design/videogen.git
+	url = git://github.com/csus-senior-design/videogen.git
 [submodule "hdl/i2c"]
 	path = hdl/i2c
-	url = https://github.com/csus-senior-design/i2c.git
+	url = git://github.com/csus-senior-design/i2c.git
 [submodule "hdl/adv7513"]
 	path = hdl/adv7513
-	url = https://github.com/csus-senior-design/adv7513.git
+	url = git://github.com/csus-senior-design/adv7513.git
