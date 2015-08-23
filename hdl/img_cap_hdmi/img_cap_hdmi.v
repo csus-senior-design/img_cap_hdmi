@@ -65,7 +65,7 @@ module img_cap_hdmi #(
 	// I2C read register control signal, register address, and output data
 	input					i2c_reg_read,
 	input		[7:0]		i2c_reg_addr,
-	output	[7:0]		i2c_reg_data
+	output		[7:0]		i2c_reg_data
 	/*(*
 	  chip_pin = "W20, W21, V20, V22, U20, AD6, AD7, AF24, AC19, AE25, AE26, AB19, AD26, AA18, Y18, Y19, Y20, W18, V17, V18, V19"
 	*)
